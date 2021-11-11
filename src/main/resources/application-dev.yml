@@ -1,0 +1,9 @@
+spring :
+    jpa :
+        hibernate :
+            ddl-auto : update
+    datasource :
+        driver-class-name : com.mysql.cj.jdbc.Driver
+        url : jdbc:mysql://localhost:3306/moupang?serverTimezone=Asia/Seoul
+        username : root
+        password : 1234
