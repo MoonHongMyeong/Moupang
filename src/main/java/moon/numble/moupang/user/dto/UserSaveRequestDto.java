@@ -23,6 +23,10 @@ public class UserSaveRequestDto {
         this.phone=phone;
     }
 
+    public void passwordEncryption(String encryptedPassword){
+        this.password = encryptedPassword;
+    }
+
     public User toEntity(){
         return User.builder()
                 .email(email)
