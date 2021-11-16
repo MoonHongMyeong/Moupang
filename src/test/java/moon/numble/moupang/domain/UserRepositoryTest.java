@@ -3,6 +3,8 @@ package moon.numble.moupang.domain;
 import moon.numble.moupang.user.domain.entity.Role;
 import moon.numble.moupang.user.domain.entity.User;
 import moon.numble.moupang.user.domain.repository.UserRepository;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,28 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
+
+    private User setUpUser;
+    private String email;
+
+    @BeforeAll
+    public void setUp(){
+        email = "moonhongmyeong@gmail.com";
+        setUpUser = User.builder()
+                .email(email)
+                .name("moon")
+                .password("12345")
+                .phone("01011112222")
+                .role(Role.CUSTOMER)
+                .build();
+
+        userRepository.save(setUpUser);
+    }
+
+    @AfterAll
+    public void cleanUp(){
+        userRepository.delete(setUpUser);
+    }
 
     @Test
     @DisplayName("userRepository null 이 아니다.")
@@ -37,5 +61,12 @@ public class UserRepositoryTest {
         //then
         assertNotNull(resultUser.getId());
         assertEquals(resultUser.getEmail(), "test@test.com");
+    }
+
+    @Test
+    @DisplayName("이메일이 존재하면 true")
+    public void existsByEmailIsTrue(){
+        final boolean existsByEmail = userRepository.existsByEmail(email);
+        assertEquals(existsByEmail, true);
     }
 }
