@@ -18,12 +18,6 @@ public class UserApiController {
     @PostMapping("/user")
     public ResponseEntity<HttpStatus> registrationCustomer(@RequestBody UserSaveRequestDto saveRequestDto){
 
-        boolean isExistEmail = userService.isExistEmail(saveRequestDto.getEmail());
-
-        if(isExistEmail){
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
-
         userService.registerUser(saveRequestDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
