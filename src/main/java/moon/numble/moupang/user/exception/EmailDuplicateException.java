@@ -6,7 +6,7 @@ import moon.numble.moupang.common.exception.InvalidValueException;
 public class EmailDuplicateException extends InvalidValueException {
 
     public EmailDuplicateException(final String email){
-        super(email, ErrorCode.EMAIL_DUPLICATION);
+        super(email + " is duplicated", ErrorCode.EMAIL_DUPLICATION);
     }
 
 }
