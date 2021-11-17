@@ -2,6 +2,11 @@ package moon.numble.moupang.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moon.numble.moupang.common.SessionUser;
+import moon.numble.moupang.common.annotation.LoginUser;
+import moon.numble.moupang.user.domain.entity.User;
+import moon.numble.moupang.user.dto.UserLoginRequestDto;
+import moon.numble.moupang.user.dto.UserResponseDto;
 import moon.numble.moupang.user.dto.UserSaveRequestDto;
 import moon.numble.moupang.user.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -21,6 +26,11 @@ public class UserApiController {
         userService.registerUser(saveRequestDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<SessionUser> userLogin(@RequestBody UserLoginRequestDto loginRequestDto){
+        return ResponseEntity.ok(userService.loginUser(loginRequestDto));
     }
 
 }
