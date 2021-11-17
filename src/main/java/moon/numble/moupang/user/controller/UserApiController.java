@@ -28,6 +28,11 @@ public class UserApiController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @GetMapping("/user")
+    public ResponseEntity<UserResponseDto> getUserProfile(@LoginUser SessionUser user){
+        return ResponseEntity.ok(UserResponseDto.of(user));
+    }
+
     @PostMapping("/login")
     public ResponseEntity<SessionUser> userLogin(@RequestBody UserLoginRequestDto loginRequestDto){
         return ResponseEntity.ok(userService.loginUser(loginRequestDto));
