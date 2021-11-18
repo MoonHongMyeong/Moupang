@@ -43,4 +43,13 @@ public class UserApiController {
         return ResponseEntity.ok(verifiedUser);
     }
 
+    @LoginRequired
+    @GetMapping("/logout")
+    public ResponseEntity<HttpStatus> userLogout(){
+
+        loginService.logout();
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 }

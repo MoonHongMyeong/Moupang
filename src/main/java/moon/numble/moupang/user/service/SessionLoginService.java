@@ -17,5 +17,6 @@ public class SessionLoginService implements LoginService{
 
     @Override
     public void logout() {
+        httpSession.removeAttribute("USER");
     }
 }
