@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -17,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
-
     private User setUpUser;
     private String email;
 
@@ -41,13 +42,13 @@ public class UserRepositoryTest {
     }
 
     @Test
-    @DisplayName("userRepository null 이 아니다.")
+    @DisplayName("userRepository_null이_아니다.")
     public void userRepositoryIsNotNull(){
         assertNotNull(userRepository);
     }
 
     @Test
-    @DisplayName("회원 가입에 성공한다.")
+    @DisplayName("회원가입에_성공한다.")
     public void userRegistration(){
         //given
         User user = User.builder()
@@ -65,9 +66,23 @@ public class UserRepositoryTest {
     }
 
     @Test
-    @DisplayName("이메일이 존재하면 true")
+    @DisplayName("이메일이_존재하면_true")
     public void existsByEmailIsTrue(){
+        //when
         final boolean existsByEmail = userRepository.existsByEmail(email);
+        //then
         assertEquals(existsByEmail, true);
+    }
+
+    @Test
+    @DisplayName("이메일로_유저를_찾는데_성공한다.")
+    public void findByEmail(){
+        //given
+        //when
+        final Optional<User> findUser = userRepository.findByEmail(setUpUser.getEmail());
+        //then
+        assertEquals(findUser.get().getEmail(), setUpUser.getEmail());
+        assertEquals(findUser.get().getName(), setUpUser.getName());
+        assertEquals(findUser.get().getPhone(), setUpUser.getPhone());
     }
 }
