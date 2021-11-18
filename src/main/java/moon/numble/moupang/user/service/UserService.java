@@ -4,18 +4,19 @@ import lombok.RequiredArgsConstructor;
 import moon.numble.moupang.common.SessionUser;
 import moon.numble.moupang.user.domain.entity.User;
 import moon.numble.moupang.user.domain.repository.UserRepository;
-import moon.numble.moupang.user.dto.UserLoginRequestDto;
-import moon.numble.moupang.user.dto.UserSaveRequestDto;
+import moon.numble.moupang.user.dto.*;
 import moon.numble.moupang.user.exception.EmailDuplicateException;
-import moon.numble.moupang.user.exception.LoginValidException;
+import moon.numble.moupang.user.exception.InvalidUserAccessException;
+import moon.numble.moupang.user.exception.PasswordNotMatchedException;
 import moon.numble.moupang.user.exception.UserNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private final LoginService loginService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -31,24 +32,37 @@ public class UserService {
         userRepository.save(saveRequestDto.toEntity());
     }
 
-    public SessionUser loginUser(UserLoginRequestDto loginRequestDto) {
+    public SessionUser verifyUserLogin(UserLoginRequestDto loginRequestDto) {
 
-        boolean isExistUser = userRepository.existsByEmail(loginRequestDto.getEmail());
+        User user = isExistUserByEmail(loginRequestDto.getEmail());
 
-        if(!isExistUser){
-            throw new UserNotFoundException(loginRequestDto.getEmail());
+        checkUserPassword(loginRequestDto.getPassword(),user.getPassword());
+
+        return new SessionUser(user);
+    }
+
+    private void checkUserPassword(String password, String userPassword) {
+        boolean isValidPassword = passwordEncoder.matches(password, userPassword);
+
+        if(!isValidPassword){
+            throw new PasswordNotMatchedException(password);
+        }
+    }
+
+    private User isExistUserByEmail(String email) {
+
+        Optional<User> user = userRepository.findByEmail(email);
+
+        if(user.isEmpty()){
+            throw new UserNotFoundException(email);
         }
 
-        User user = userRepository.findByEmail(loginRequestDto.getEmail());
+        return user.get();
+    }
 
-        if(!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())){
-            throw new LoginValidException(loginRequestDto.getPassword());
+    private void verifyUser(SessionUser user, Long userId) {
+        if(!user.getId().equals(userId)){
+            throw new InvalidUserAccessException(userId.toString());
         }
-
-        SessionUser sessionUser = new SessionUser(user);
-
-        loginService.login(sessionUser);
-
-        return sessionUser;
     }
 }
