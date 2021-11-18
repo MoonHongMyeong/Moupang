@@ -1,15 +1,18 @@
 package moon.numble.moupang.domain;
 
+import moon.numble.moupang.setup.TestProfile;
 import moon.numble.moupang.user.domain.entity.Role;
 import moon.numble.moupang.user.domain.entity.User;
 import moon.numble.moupang.user.domain.repository.UserRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
+@ActiveProfiles(TestProfile.TEST)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserRepositoryTest {
     @Autowired
