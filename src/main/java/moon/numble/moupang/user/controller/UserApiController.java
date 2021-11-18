@@ -94,6 +94,8 @@ public class UserApiController {
 
         userService.userWithdrawal(user, userId);
 
+        userLogout();
+
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
