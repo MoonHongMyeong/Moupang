@@ -18,7 +18,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
 
         HandlerMethod handlerMethod = (HandlerMethod) handler;
-        SessionUser user = (SessionUser) request.getAttribute(USER);
+        SessionUser user = (SessionUser) request.getSession().getAttribute(USER);
 
         if(handlerMethod.hasMethodAnnotation(LoginRequired.class) && user == null){
             throw new UnauthorizedAccessException(USER+" Unauthorized Access");
