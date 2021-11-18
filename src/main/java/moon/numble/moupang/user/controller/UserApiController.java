@@ -28,11 +28,13 @@ public class UserApiController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @LoginRequired
     @GetMapping("/user")
     public ResponseEntity<UserResponseDto> getUserProfile(@LoginUser SessionUser user){
         return ResponseEntity.ok(UserResponseDto.of(user));
     }
 
+    @LoginRequired
     @PutMapping("/user/{userId}/email")
     public ResponseEntity<UserResponseDto> updateUserEmail(@LoginUser SessionUser user,
                                                            @PathVariable(name = "userId") Long userId,
@@ -43,6 +45,7 @@ public class UserApiController {
         return ResponseEntity.ok(response);
     }
 
+    @LoginRequired
     @PutMapping("/user/{userId}/password")
     public ResponseEntity<UserResponseDto> updateUserPassword(@LoginUser SessionUser user,
                                                               @PathVariable(name = "userId") Long userId,
@@ -53,6 +56,7 @@ public class UserApiController {
         return ResponseEntity.ok(response);
     }
 
+    @LoginRequired
     @PutMapping("/user/{userId}/name")
     public ResponseEntity<UserResponseDto> updateUserName(@LoginUser SessionUser user,
                                                           @PathVariable(name = "userId") Long userId,
@@ -64,6 +68,7 @@ public class UserApiController {
         return ResponseEntity.ok(response);
     }
 
+    @LoginRequired
     @PutMapping("/user/{userId}/phone")
     public ResponseEntity<UserResponseDto> updateUserPhone(@LoginUser SessionUser user,
                                                            @PathVariable(name = "userId") Long userId,
@@ -74,6 +79,7 @@ public class UserApiController {
         return ResponseEntity.ok(response);
     }
 
+    @LoginRequired
     @DeleteMapping("/user/{userId}")
     public ResponseEntity<HttpStatus> userWithdrawal(@LoginUser SessionUser user,
                                                      @PathVariable(name = "userId") Long userId){
