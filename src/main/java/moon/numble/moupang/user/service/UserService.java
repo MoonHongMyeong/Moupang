@@ -40,11 +40,20 @@ public class UserService {
 
     public SessionUser verifyUserLogin(UserLoginRequestDto loginRequestDto) {
 
-        User user = isExistUserByEmail(loginRequestDto.getEmail());
+        Optional<User> user = userRepository.findByEmail(loginRequestDto.getEmail());
 
-        checkUserPassword(loginRequestDto.getPassword(),user.getPassword());
+        if(user.isEmpty()){
+            throw new LoginValidationException(loginRequestDto.getEmail());
+        }
 
-        return new SessionUser(user);
+        User validateUser = user.get();
+        boolean validatePassword = passwordEncoder.matches(loginRequestDto.getPassword(),validateUser.getPassword());
+
+        if(!validatePassword){
+            throw new LoginValidationException(loginRequestDto.getPassword());
+        }
+
+        return new SessionUser(validateUser);
     }
 
     private void checkUserPassword(String password, String userPassword) {
