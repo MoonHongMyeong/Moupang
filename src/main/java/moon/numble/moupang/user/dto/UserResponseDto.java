@@ -39,6 +39,7 @@ public class UserResponseDto {
                 .id(user.getId())
                 .email(user.getEmail())
                 .name(user.getName())
+                .phone(user.getPhone())
                 .role(user.getRole())
                 .build();
     }
