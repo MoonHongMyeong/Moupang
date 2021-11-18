@@ -5,13 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import moon.numble.moupang.common.SessionUser;
 import moon.numble.moupang.common.annotation.LoginUser;
 import moon.numble.moupang.user.annotation.LoginRequired;
-import moon.numble.moupang.user.domain.entity.User;
 import moon.numble.moupang.user.dto.*;
 import moon.numble.moupang.user.service.LoginService;
 import moon.numble.moupang.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class UserApiController {
     private final LoginService loginService;
 
     @PostMapping("/user")
-    public ResponseEntity<HttpStatus> registrationCustomer(@RequestBody UserSaveRequestDto saveRequestDto){
+    public ResponseEntity<HttpStatus> registrationCustomer(@RequestBody @Valid UserSaveRequestDto saveRequestDto){
 
         userService.registerUser(saveRequestDto);
 
@@ -39,7 +40,7 @@ public class UserApiController {
     @PutMapping("/user/{userId}/email")
     public ResponseEntity<UserResponseDto> updateUserEmail(@LoginUser SessionUser user,
                                                            @PathVariable(name = "userId") Long userId,
-                                                           @RequestBody UserUpdateRequestDto requestDto){
+                                                           @RequestBody UserEmailUpdateRequestDto requestDto){
 
         UserResponseDto response = userService.updateUserEmail(user, userId, requestDto);
 
@@ -52,7 +53,7 @@ public class UserApiController {
     @PutMapping("/user/{userId}/password")
     public ResponseEntity<UserResponseDto> updateUserPassword(@LoginUser SessionUser user,
                                                               @PathVariable(name = "userId") Long userId,
-                                                              @RequestBody UserUpdateRequestDto requestDto){
+                                                              @RequestBody UserPasswordUpdateRequestDto requestDto){
 
         UserResponseDto response = userService.updateUserPassword(user, userId, requestDto);
 
@@ -65,7 +66,7 @@ public class UserApiController {
     @PutMapping("/user/{userId}/name")
     public ResponseEntity<UserResponseDto> updateUserName(@LoginUser SessionUser user,
                                                           @PathVariable(name = "userId") Long userId,
-                                                          @RequestBody UserUpdateRequestDto requestDto){
+                                                          @RequestBody UserNameUpdateRequestDto requestDto){
 
         UserResponseDto response = userService.updateUserName(user, userId, requestDto);
 
@@ -78,7 +79,7 @@ public class UserApiController {
     @PutMapping("/user/{userId}/phone")
     public ResponseEntity<UserResponseDto> updateUserPhone(@LoginUser SessionUser user,
                                                            @PathVariable(name = "userId") Long userId,
-                                                           @RequestBody UserUpdateRequestDto requestDto){
+                                                           @RequestBody UserPhoneUpdateRequestDto requestDto){
 
         UserResponseDto response = userService.updateUserPhone(user, userId, requestDto);
 

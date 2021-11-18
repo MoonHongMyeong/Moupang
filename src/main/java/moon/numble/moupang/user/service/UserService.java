@@ -68,7 +68,7 @@ public class UserService {
         }
     }
 
-    public UserResponseDto updateUserEmail(SessionUser sessionUser, Long userId, UserUpdateRequestDto requestDto) {
+    public UserResponseDto updateUserEmail(SessionUser sessionUser, Long userId, UserEmailUpdateRequestDto requestDto) {
         verifyUser(sessionUser, userId);
 
         isDuplicateUserByEmail(requestDto.getEmail());
@@ -85,7 +85,7 @@ public class UserService {
         }
     }
 
-    public UserResponseDto updateUserPassword(SessionUser sessionUser, Long userId, UserUpdateRequestDto requestDto) {
+    public UserResponseDto updateUserPassword(SessionUser sessionUser, Long userId, UserPasswordUpdateRequestDto requestDto) {
         verifyUser(sessionUser, userId);
 
         User user = isExistUserByEmail(sessionUser.getEmail());
@@ -98,7 +98,7 @@ public class UserService {
         return UserResponseDto.of(user);
     }
 
-    public UserResponseDto updateUserName(SessionUser sessionUser, Long userId, UserUpdateRequestDto requestDto) {
+    public UserResponseDto updateUserName(SessionUser sessionUser, Long userId, UserNameUpdateRequestDto requestDto) {
         verifyUser(sessionUser, userId);
 
         User user = isExistUserByEmail(sessionUser.getEmail());
@@ -107,7 +107,7 @@ public class UserService {
         return UserResponseDto.of(user);
     }
 
-    public UserResponseDto updateUserPhone(SessionUser sessionUser, Long userId, UserUpdateRequestDto requestDto) {
+    public UserResponseDto updateUserPhone(SessionUser sessionUser, Long userId, UserPhoneUpdateRequestDto requestDto) {
         verifyUser(sessionUser, userId);
 
         User user = isExistUserByEmail(sessionUser.getEmail());
