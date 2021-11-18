@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import moon.numble.moupang.common.SessionUser;
 import moon.numble.moupang.common.annotation.LoginUser;
 import moon.numble.moupang.user.annotation.LoginRequired;
+import moon.numble.moupang.user.domain.entity.User;
 import moon.numble.moupang.user.dto.*;
 import moon.numble.moupang.user.service.LoginService;
 import moon.numble.moupang.user.service.UserService;
@@ -38,9 +39,11 @@ public class UserApiController {
     @PutMapping("/user/{userId}/email")
     public ResponseEntity<UserResponseDto> updateUserEmail(@LoginUser SessionUser user,
                                                            @PathVariable(name = "userId") Long userId,
-                                                           @RequestBody UserEmailUpdateRequestDto requestDto){
+                                                           @RequestBody UserUpdateRequestDto requestDto){
 
         UserResponseDto response = userService.updateUserEmail(user, userId, requestDto);
+
+        userLogout();
 
         return ResponseEntity.ok(response);
     }
@@ -49,9 +52,11 @@ public class UserApiController {
     @PutMapping("/user/{userId}/password")
     public ResponseEntity<UserResponseDto> updateUserPassword(@LoginUser SessionUser user,
                                                               @PathVariable(name = "userId") Long userId,
-                                                              @RequestBody UserPasswordUpdateRequestDto requestDto){
+                                                              @RequestBody UserUpdateRequestDto requestDto){
 
         UserResponseDto response = userService.updateUserPassword(user, userId, requestDto);
+
+        userLogout();
 
         return ResponseEntity.ok(response);
     }
@@ -60,10 +65,11 @@ public class UserApiController {
     @PutMapping("/user/{userId}/name")
     public ResponseEntity<UserResponseDto> updateUserName(@LoginUser SessionUser user,
                                                           @PathVariable(name = "userId") Long userId,
-                                                          @RequestBody UserNameUpdateRequestDto requestDto){
+                                                          @RequestBody UserUpdateRequestDto requestDto){
 
         UserResponseDto response = userService.updateUserName(user, userId, requestDto);
 
+        userLogout();
 
         return ResponseEntity.ok(response);
     }
@@ -72,9 +78,11 @@ public class UserApiController {
     @PutMapping("/user/{userId}/phone")
     public ResponseEntity<UserResponseDto> updateUserPhone(@LoginUser SessionUser user,
                                                            @PathVariable(name = "userId") Long userId,
-                                                           @RequestBody UserPhoneUpdateRequestDto requestDto){
+                                                           @RequestBody UserUpdateRequestDto requestDto){
 
         UserResponseDto response = userService.updateUserPhone(user, userId, requestDto);
+
+        userLogout();
 
         return ResponseEntity.ok(response);
     }
