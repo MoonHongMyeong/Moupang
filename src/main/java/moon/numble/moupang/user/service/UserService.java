@@ -22,9 +22,7 @@ public class UserService {
 
     public void registerUser(UserSaveRequestDto saveRequestDto) {
 
-        if(userRepository.existsByEmail(saveRequestDto.getEmail())){
-            throw new EmailDuplicateException(saveRequestDto.getEmail());
-        }
+        isDuplicateUserByEmail(saveRequestDto.getEmail());
 
         String encryptPassword = passwordEncoder.encode(saveRequestDto.getPassword());
         saveRequestDto.passwordEncryption(encryptPassword);
@@ -69,10 +67,18 @@ public class UserService {
     public UserResponseDto updateUserEmail(SessionUser sessionUser, Long userId, UserEmailUpdateRequestDto requestDto) {
         verifyUser(sessionUser, userId);
 
+        isDuplicateUserByEmail(requestDto.getEmail());
+
         User user = isExistUserByEmail(sessionUser.getEmail());
         user.updateEmail(requestDto.getEmail());
 
         return UserResponseDto.of(user);
+    }
+
+    private void isDuplicateUserByEmail(String email) {
+        if(userRepository.existsByEmail(email)){
+            throw new EmailDuplicateException(email);
+        }
     }
 
     public UserResponseDto updateUserPassword(SessionUser sessionUser, Long userId, UserPasswordUpdateRequestDto requestDto) {
