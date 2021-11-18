@@ -24,10 +24,14 @@ public class UserService {
 
         isDuplicateUserByEmail(saveRequestDto.getEmail());
 
-        String encryptPassword = passwordEncoder.encode(saveRequestDto.getPassword());
+        String encryptPassword = encodingPassword(saveRequestDto.getPassword());
         saveRequestDto.passwordEncryption(encryptPassword);
 
         userRepository.save(saveRequestDto.toEntity());
+    }
+
+    private String encodingPassword(String password) {
+        return passwordEncoder.encode(password);
     }
 
     public SessionUser verifyUserLogin(UserLoginRequestDto loginRequestDto) {
@@ -88,7 +92,7 @@ public class UserService {
 
         checkUserPassword(requestDto.getOldPassword(), user.getPassword());
 
-        String encryptPassword = passwordEncoder.encode(requestDto.getNewPassword());
+        String encryptPassword = encodingPassword(requestDto.getNewPassword());
         user.updatePassword(encryptPassword);
 
         return UserResponseDto.of(user);
