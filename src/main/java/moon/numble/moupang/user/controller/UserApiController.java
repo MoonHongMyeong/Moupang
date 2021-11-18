@@ -33,6 +33,56 @@ public class UserApiController {
         return ResponseEntity.ok(UserResponseDto.of(user));
     }
 
+    @PutMapping("/user/{userId}/email")
+    public ResponseEntity<UserResponseDto> updateUserEmail(@LoginUser SessionUser user,
+                                                           @PathVariable(name = "userId") Long userId,
+                                                           @RequestBody UserEmailUpdateRequestDto requestDto){
+
+        UserResponseDto response = userService.updateUserEmail(user, userId, requestDto);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/user/{userId}/password")
+    public ResponseEntity<UserResponseDto> updateUserPassword(@LoginUser SessionUser user,
+                                                              @PathVariable(name = "userId") Long userId,
+                                                              @RequestBody UserPasswordUpdateRequestDto requestDto){
+
+        UserResponseDto response = userService.updateUserPassword(user, userId, requestDto);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/user/{userId}/name")
+    public ResponseEntity<UserResponseDto> updateUserName(@LoginUser SessionUser user,
+                                                          @PathVariable(name = "userId") Long userId,
+                                                          @RequestBody UserNameUpdateRequestDto requestDto){
+
+        UserResponseDto response = userService.updateUserName(user, userId, requestDto);
+
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/user/{userId}/phone")
+    public ResponseEntity<UserResponseDto> updateUserPhone(@LoginUser SessionUser user,
+                                                           @PathVariable(name = "userId") Long userId,
+                                                           @RequestBody UserPhoneUpdateRequestDto requestDto){
+
+        UserResponseDto response = userService.updateUserPhone(user, userId, requestDto);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/user/{userId}")
+    public ResponseEntity<HttpStatus> userWithdrawal(@LoginUser SessionUser user,
+                                                     @PathVariable(name = "userId") Long userId){
+
+        userService.userWithdrawal(user, userId);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @PostMapping("/login")
     public ResponseEntity<SessionUser> userLogin(@RequestBody UserLoginRequestDto loginRequestDto){
 

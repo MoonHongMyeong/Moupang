@@ -65,4 +65,52 @@ public class UserService {
             throw new InvalidUserAccessException(userId.toString());
         }
     }
+
+    public UserResponseDto updateUserEmail(SessionUser sessionUser, Long userId, UserEmailUpdateRequestDto requestDto) {
+        verifyUser(sessionUser, userId);
+
+        User user = isExistUserByEmail(sessionUser.getEmail());
+        user.updateEmail(requestDto.getEmail());
+
+        return UserResponseDto.of(user);
+    }
+
+    public UserResponseDto updateUserPassword(SessionUser sessionUser, Long userId, UserPasswordUpdateRequestDto requestDto) {
+        verifyUser(sessionUser, userId);
+
+        User user = isExistUserByEmail(sessionUser.getEmail());
+
+        checkUserPassword(requestDto.getOldPassword(), user.getPassword());
+
+        String encryptPassword = passwordEncoder.encode(requestDto.getNewPassword());
+        user.updatePassword(encryptPassword);
+
+        return UserResponseDto.of(user);
+    }
+
+    public UserResponseDto updateUserName(SessionUser sessionUser, Long userId, UserNameUpdateRequestDto requestDto) {
+        verifyUser(sessionUser, userId);
+
+        User user = isExistUserByEmail(sessionUser.getEmail());
+        user.updateName(requestDto.getName());
+
+        return UserResponseDto.of(user);
+    }
+
+    public UserResponseDto updateUserPhone(SessionUser sessionUser, Long userId, UserPhoneUpdateRequestDto requestDto) {
+        verifyUser(sessionUser, userId);
+
+        User user = isExistUserByEmail(sessionUser.getEmail());
+        user.updatePhone(requestDto.getPhone());
+
+        return UserResponseDto.of(user);
+    }
+
+    public void userWithdrawal(SessionUser sessionUser, Long userId) {
+        verifyUser(sessionUser, userId);
+
+        User user = isExistUserByEmail(sessionUser.getEmail());
+
+        userRepository.delete(user);
+    }
 }
