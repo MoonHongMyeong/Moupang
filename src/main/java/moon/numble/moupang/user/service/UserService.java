@@ -5,10 +5,7 @@ import moon.numble.moupang.common.SessionUser;
 import moon.numble.moupang.user.domain.entity.User;
 import moon.numble.moupang.user.domain.repository.UserRepository;
 import moon.numble.moupang.user.dto.*;
-import moon.numble.moupang.user.exception.EmailDuplicateException;
-import moon.numble.moupang.user.exception.InvalidUserAccessException;
-import moon.numble.moupang.user.exception.PasswordNotMatchedException;
-import moon.numble.moupang.user.exception.UserNotFoundException;
+import moon.numble.moupang.user.exception.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +20,18 @@ public class UserService {
     public void registerUser(UserSaveRequestDto saveRequestDto) {
 
         isDuplicateUserByEmail(saveRequestDto.getEmail());
+        isDuplicateUserByPhone(saveRequestDto.getPhone());
 
         String encryptPassword = encodingPassword(saveRequestDto.getPassword());
         saveRequestDto.passwordEncryption(encryptPassword);
 
         userRepository.save(saveRequestDto.toEntity());
+    }
+
+    private void isDuplicateUserByPhone(String phone) {
+        if(userRepository.existsByPhone(phone)){
+            throw new PhoneDuplicateException(phone);
+        }
     }
 
     private String encodingPassword(String password) {
