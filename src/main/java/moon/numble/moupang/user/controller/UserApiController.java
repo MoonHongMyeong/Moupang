@@ -34,14 +34,13 @@ public class UserApiController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponseDto> userLogin(@RequestBody UserLoginRequestDto loginRequestDto){
+    public ResponseEntity<SessionUser> userLogin(@RequestBody UserLoginRequestDto loginRequestDto){
 
         SessionUser verifiedUser = userService.verifyUserLogin(loginRequestDto);
 
         loginService.login(verifiedUser);
 
-        return ResponseEntity.ok(UserResponseDto.of(verifiedUser));
+        return ResponseEntity.ok(verifiedUser);
     }
-
 
 }
