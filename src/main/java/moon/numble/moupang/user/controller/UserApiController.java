@@ -40,7 +40,7 @@ public class UserApiController {
     @PutMapping("/user/{userId}/email")
     public ResponseEntity<UserResponseDto> updateUserEmail(@LoginUser SessionUser user,
                                                            @PathVariable(name = "userId") Long userId,
-                                                           @RequestBody UserEmailUpdateRequestDto requestDto){
+                                                           @RequestBody @Valid UserEmailUpdateRequestDto requestDto){
 
         UserResponseDto response = userService.updateUserEmail(user, userId, requestDto);
 
@@ -53,7 +53,7 @@ public class UserApiController {
     @PutMapping("/user/{userId}/password")
     public ResponseEntity<UserResponseDto> updateUserPassword(@LoginUser SessionUser user,
                                                               @PathVariable(name = "userId") Long userId,
-                                                              @RequestBody UserPasswordUpdateRequestDto requestDto){
+                                                              @RequestBody @Valid UserPasswordUpdateRequestDto requestDto){
 
         UserResponseDto response = userService.updateUserPassword(user, userId, requestDto);
 
@@ -66,7 +66,7 @@ public class UserApiController {
     @PutMapping("/user/{userId}/name")
     public ResponseEntity<UserResponseDto> updateUserName(@LoginUser SessionUser user,
                                                           @PathVariable(name = "userId") Long userId,
-                                                          @RequestBody UserNameUpdateRequestDto requestDto){
+                                                          @RequestBody @Valid UserNameUpdateRequestDto requestDto){
 
         UserResponseDto response = userService.updateUserName(user, userId, requestDto);
 
@@ -79,7 +79,7 @@ public class UserApiController {
     @PutMapping("/user/{userId}/phone")
     public ResponseEntity<UserResponseDto> updateUserPhone(@LoginUser SessionUser user,
                                                            @PathVariable(name = "userId") Long userId,
-                                                           @RequestBody UserPhoneUpdateRequestDto requestDto){
+                                                           @RequestBody @Valid UserPhoneUpdateRequestDto requestDto){
 
         UserResponseDto response = userService.updateUserPhone(user, userId, requestDto);
 
@@ -101,7 +101,7 @@ public class UserApiController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<SessionUser> userLogin(@RequestBody UserLoginRequestDto loginRequestDto){
+    public ResponseEntity<SessionUser> userLogin(@RequestBody @Valid UserLoginRequestDto loginRequestDto){
 
         SessionUser verifiedUser = userService.verifyUserLogin(loginRequestDto);
 
