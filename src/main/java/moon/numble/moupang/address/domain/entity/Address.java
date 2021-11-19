@@ -93,7 +93,8 @@ public class Address extends BaseTimeEntity {
     private String bNameEnglish;
 
     @Builder
-    public Address(String name, ShippingMain main, String zoneCode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadNameCode, String roadName, String roadNameEnglish, String bName, String bNameEnglish) {
+    public Address(User user, String name, ShippingMain main, String zoneCode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadNameCode, String roadName, String roadNameEnglish, String bName, String bNameEnglish) {
+        this.user=user;
         this.name = name;
         this.main = main;
         this.zoneCode = zoneCode;
