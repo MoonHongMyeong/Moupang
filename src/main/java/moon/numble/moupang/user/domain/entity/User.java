@@ -47,6 +47,11 @@ public class User extends BaseTimeEntity {
         return this;
     }
 
+    public User updateName(String name){
+        this.name=name;
+        return this;
+    }
+
     public User updatePhone(String phone){
         this.phone = phone;
         return this;
@@ -54,5 +59,9 @@ public class User extends BaseTimeEntity {
 
     public String getRoleKey(){
         return this.role.getKey();
+    }
+
+    public String getRoleKr(){
+        return this.role.getValue();
     }
 }
