@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import moon.numble.moupang.common.SessionUser;
 import moon.numble.moupang.common.annotation.LoginUser;
 import moon.numble.moupang.user.annotation.LoginRequired;
+import moon.numble.moupang.user.domain.entity.User;
 import moon.numble.moupang.user.dto.*;
 import moon.numble.moupang.user.service.LoginService;
 import moon.numble.moupang.user.service.UserService;
@@ -23,11 +24,13 @@ public class UserApiController {
     private final LoginService loginService;
 
     @PostMapping("/user")
-    public ResponseEntity<HttpStatus> registrationCustomer(@RequestBody @Valid UserSaveRequestDto saveRequestDto){
+    public ResponseEntity<UserResponseDto> registrationCustomer(@RequestBody @Valid UserSaveRequestDto saveRequestDto){
 
-        userService.registerUser(saveRequestDto);
+        userService.isDuplicateUserByEmail(saveRequestDto.getEmail());
+        userService.isDuplicateUserByPhone(saveRequestDto.getPhone());
+        UserResponseDto dto = userService.registerUser(saveRequestDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     @LoginRequired
@@ -42,7 +45,10 @@ public class UserApiController {
                                                            @PathVariable(name = "userId") Long userId,
                                                            @RequestBody @Valid UserEmailUpdateRequestDto requestDto){
 
-        UserResponseDto response = userService.updateUserEmail(user, userId, requestDto);
+        userService.verifyUser(user, userId);
+        userService.isDuplicateUserByEmail(requestDto.getEmail());
+
+        UserResponseDto response = userService.updateUserEmail(user, requestDto);
 
         userLogout();
 
@@ -55,7 +61,9 @@ public class UserApiController {
                                                               @PathVariable(name = "userId") Long userId,
                                                               @RequestBody @Valid UserPasswordUpdateRequestDto requestDto){
 
-        UserResponseDto response = userService.updateUserPassword(user, userId, requestDto);
+        userService.verifyUser(user, userId);
+
+        UserResponseDto response = userService.updateUserPassword(user, requestDto);
 
         userLogout();
 
@@ -68,7 +76,9 @@ public class UserApiController {
                                                           @PathVariable(name = "userId") Long userId,
                                                           @RequestBody @Valid UserNameUpdateRequestDto requestDto){
 
-        UserResponseDto response = userService.updateUserName(user, userId, requestDto);
+        userService.verifyUser(user, userId);
+
+        UserResponseDto response = userService.updateUserName(user, requestDto);
 
         userLogout();
 
@@ -81,7 +91,9 @@ public class UserApiController {
                                                            @PathVariable(name = "userId") Long userId,
                                                            @RequestBody @Valid UserPhoneUpdateRequestDto requestDto){
 
-        UserResponseDto response = userService.updateUserPhone(user, userId, requestDto);
+        userService.verifyUser(user, userId);
+
+        UserResponseDto response = userService.updateUserPhone(user, requestDto);
 
         userLogout();
 
@@ -93,7 +105,8 @@ public class UserApiController {
     public ResponseEntity<HttpStatus> userWithdrawal(@LoginUser SessionUser user,
                                                      @PathVariable(name = "userId") Long userId){
 
-        userService.userWithdrawal(user, userId);
+        userService.verifyUser(user, userId);
+        userService.userWithdrawal(user);
 
         userLogout();
 

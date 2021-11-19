@@ -17,18 +17,17 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void registerUser(UserSaveRequestDto saveRequestDto) {
-
-        isDuplicateUserByEmail(saveRequestDto.getEmail());
-        isDuplicateUserByPhone(saveRequestDto.getPhone());
+    public UserResponseDto registerUser(UserSaveRequestDto saveRequestDto) {
 
         String encryptPassword = encodingPassword(saveRequestDto.getPassword());
         saveRequestDto.passwordEncryption(encryptPassword);
 
-        userRepository.save(saveRequestDto.toEntity());
+        User user = userRepository.save(saveRequestDto.toEntity());
+
+        return UserResponseDto.of(user);
     }
 
-    private void isDuplicateUserByPhone(String phone) {
+    public void isDuplicateUserByPhone(String phone) {
         if(userRepository.existsByPhone(phone)){
             throw new PhoneDuplicateException(phone);
         }
@@ -64,75 +63,69 @@ public class UserService {
         }
     }
 
-    private User isExistUserByEmail(String email) {
+    private User getUserToSessionUser(SessionUser sessionUser) {
 
-        Optional<User> user = userRepository.findByEmail(email);
+        Optional<User> user = userRepository.findByEmail(sessionUser.getEmail());
 
         if(user.isEmpty()){
-            throw new UserNotFoundException(email);
+            throw new UserNotFoundException(sessionUser.getEmail());
         }
 
         return user.get();
     }
 
-    private void verifyUser(SessionUser user, Long userId) {
+    public void verifyUser(SessionUser user, Long userId) {
         if(!user.getId().equals(userId)){
             throw new InvalidUserAccessException(userId.toString());
         }
     }
 
-    public UserResponseDto updateUserEmail(SessionUser sessionUser, Long userId, UserEmailUpdateRequestDto requestDto) {
-        verifyUser(sessionUser, userId);
+    public UserResponseDto updateUserEmail(SessionUser sessionUser, UserEmailUpdateRequestDto requestDto) {
 
-        isDuplicateUserByEmail(requestDto.getEmail());
-
-        User user = isExistUserByEmail(sessionUser.getEmail());
+        User user = getUserToSessionUser(sessionUser);
         user.updateEmail(requestDto.getEmail());
 
         return UserResponseDto.of(user);
     }
 
-    private void isDuplicateUserByEmail(String email) {
+    public void isDuplicateUserByEmail(String email) {
         if(userRepository.existsByEmail(email)){
             throw new EmailDuplicateException(email);
         }
     }
 
-    public UserResponseDto updateUserPassword(SessionUser sessionUser, Long userId, UserPasswordUpdateRequestDto requestDto) {
-        verifyUser(sessionUser, userId);
+    public UserResponseDto updateUserPassword(SessionUser sessionUser, UserPasswordUpdateRequestDto requestDto) {
 
-        User user = isExistUserByEmail(sessionUser.getEmail());
+        User user = getUserToSessionUser(sessionUser);
+        String encryptOldPassword = encodingPassword(requestDto.getOldPassword());
+        String encryptNewPassword = encodingPassword(requestDto.getNewPassword());
 
-        checkUserPassword(requestDto.getOldPassword(), user.getPassword());
+        checkUserPassword(requestDto.getOldPassword(), encryptOldPassword);
 
-        String encryptPassword = encodingPassword(requestDto.getNewPassword());
-        user.updatePassword(encryptPassword);
+        user.updatePassword(encryptNewPassword);
 
         return UserResponseDto.of(user);
     }
 
-    public UserResponseDto updateUserName(SessionUser sessionUser, Long userId, UserNameUpdateRequestDto requestDto) {
-        verifyUser(sessionUser, userId);
+    public UserResponseDto updateUserName(SessionUser sessionUser, UserNameUpdateRequestDto requestDto) {
 
-        User user = isExistUserByEmail(sessionUser.getEmail());
+        User user = getUserToSessionUser(sessionUser);
         user.updateName(requestDto.getName());
 
         return UserResponseDto.of(user);
     }
 
-    public UserResponseDto updateUserPhone(SessionUser sessionUser, Long userId, UserPhoneUpdateRequestDto requestDto) {
-        verifyUser(sessionUser, userId);
+    public UserResponseDto updateUserPhone(SessionUser sessionUser, UserPhoneUpdateRequestDto requestDto) {
 
-        User user = isExistUserByEmail(sessionUser.getEmail());
+        User user = getUserToSessionUser(sessionUser);
         user.updatePhone(requestDto.getPhone());
 
         return UserResponseDto.of(user);
     }
 
-    public void userWithdrawal(SessionUser sessionUser, Long userId) {
-        verifyUser(sessionUser, userId);
+    public void userWithdrawal(SessionUser sessionUser) {
 
-        User user = isExistUserByEmail(sessionUser.getEmail());
+        User user = getUserToSessionUser(sessionUser);
 
         userRepository.delete(user);
     }
