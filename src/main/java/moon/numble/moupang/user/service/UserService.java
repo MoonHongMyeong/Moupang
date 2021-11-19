@@ -63,7 +63,7 @@ public class UserService {
         }
     }
 
-    private User getUserToSessionUser(SessionUser sessionUser) {
+    public User getUserToSessionUser(SessionUser sessionUser) {
 
         Optional<User> user = userRepository.findByEmail(sessionUser.getEmail());
 
