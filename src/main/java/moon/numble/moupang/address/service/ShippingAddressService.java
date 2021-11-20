@@ -53,4 +53,8 @@ public class ShippingAddressService {
 
         return ShippingAddressResponseDto.of(shippingAddress);
     }
+
+    public void delete(Long addressId) {
+        addressRepository.deleteById(addressId);
+    }
 }

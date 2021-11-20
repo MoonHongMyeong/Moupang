@@ -70,4 +70,15 @@ public class ShippingAddressApiController {
 
         return ResponseEntity.ok(response);
     }
+
+    @LoginRequired
+    @DeleteMapping("/user/{userId}/address/{addressId}")
+    public ResponseEntity<HttpStatus> deleteAddress(@LoginUser SessionUser sessionUser,
+                                                    @PathVariable("userId") Long userId,
+                                                    @PathVariable("addressId") Long addressId){
+        userService.verifyUser(sessionUser, userId);
+        addressService.delete(addressId);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
