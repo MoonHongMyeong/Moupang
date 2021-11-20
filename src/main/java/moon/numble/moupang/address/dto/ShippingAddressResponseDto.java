@@ -6,16 +6,18 @@ import lombok.NoArgsConstructor;
 import moon.numble.moupang.address.domain.entity.ShippingAddress;
 import moon.numble.moupang.address.domain.entity.ShippingMain;
 import moon.numble.moupang.user.domain.entity.User;
+import moon.numble.moupang.user.dto.UserResponseDto;
 
 @Getter
 @NoArgsConstructor
 public class ShippingAddressResponseDto {
 
     private Long id;
-    private User user;
+    private UserResponseDto user;
     private String name;
     private ShippingMain main;
-    private String zoneCode;
+    private String addressDetail;
+    private String zonecode;
     private String address;
     private String addressEnglish;
     private String addressType;
@@ -31,19 +33,20 @@ public class ShippingAddressResponseDto {
     private String sidoEnglish;
     private String sigungu;
     private String sigunguEnglish;
-    private String roadNameCode;
-    private String roadName;
-    private String roadNameEnglish;
-    private String bName;
-    private String bNameEnglish;
+    private String roadnameCode;
+    private String roadname;
+    private String roadnameEnglish;
+    private String bname;
+    private String bnameEnglish;
 
     @Builder
-    public ShippingAddressResponseDto(Long id, User user, String name, ShippingMain main, String zoneCode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadNameCode, String roadName, String roadNameEnglish, String bName, String bNameEnglish) {
+    public ShippingAddressResponseDto(Long id, User user, String name, ShippingMain main, String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadnameCode, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
         this.id = id;
-        this.user = user;
+        this.user = UserResponseDto.of(user);
         this.name = name;
         this.main = main;
-        this.zoneCode = zoneCode;
+        this.addressDetail=addressDetail;
+        this.zonecode = zonecode;
         this.address = address;
         this.addressEnglish = addressEnglish;
         this.addressType = addressType;
@@ -59,11 +62,11 @@ public class ShippingAddressResponseDto {
         this.sidoEnglish = sidoEnglish;
         this.sigungu = sigungu;
         this.sigunguEnglish = sigunguEnglish;
-        this.roadNameCode = roadNameCode;
-        this.roadName = roadName;
-        this.roadNameEnglish = roadNameEnglish;
-        this.bName = bName;
-        this.bNameEnglish = bNameEnglish;
+        this.roadnameCode = roadnameCode;
+        this.roadname = roadname;
+        this.roadnameEnglish = roadnameEnglish;
+        this.bname = bname;
+        this.bnameEnglish = bnameEnglish;
     }
 
     public static ShippingAddressResponseDto of(ShippingAddress shippingAddress){
@@ -71,8 +74,9 @@ public class ShippingAddressResponseDto {
                 .id(shippingAddress.getId())
                 .user(shippingAddress.getUser())
                 .name(shippingAddress.getName())
+                .addressDetail(shippingAddress.getAddressDetail())
                 .main(shippingAddress.getMain())
-                .zoneCode(shippingAddress.getZoneCode())
+                .zonecode(shippingAddress.getZonecode())
                 .address(shippingAddress.getAddress())
                 .addressEnglish(shippingAddress.getAddressEnglish())
                 .addressType(shippingAddress.getAddressType())
@@ -88,10 +92,10 @@ public class ShippingAddressResponseDto {
                 .sidoEnglish(shippingAddress.getSidoEnglish())
                 .sigungu(shippingAddress.getSigungu())
                 .sigunguEnglish(shippingAddress.getSigunguEnglish())
-                .roadName(shippingAddress.getRoadName())
-                .roadNameEnglish(shippingAddress.getRoadNameEnglish())
-                .bName(shippingAddress.getBName())
-                .bNameEnglish(shippingAddress.getBNameEnglish())
+                .roadname(shippingAddress.getRoadname())
+                .roadnameEnglish(shippingAddress.getRoadnameEnglish())
+                .bname(shippingAddress.getBname())
+                .bnameEnglish(shippingAddress.getBnameEnglish())
                 .build();
     }
 }

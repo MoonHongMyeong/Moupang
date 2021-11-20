@@ -14,15 +14,17 @@ import javax.validation.constraints.NotNull;
 @Getter
 @NoArgsConstructor
 public class ShippingAddressSaveRequestDto {
-    @NotEmpty
+    @NotNull
     private User user;
     @NotEmpty
     @Length(message = "배송지 이름은 한 글자 이상 입력해야 합니다.", min = 1)
     private String name;
-    @NotEmpty
+    @NotNull
     private ShippingMain main;
     @NotNull
-    private String zoneCode;
+    private String addressDetail;
+    @NotNull
+    private String zonecode;
     @NotNull
     private String address;
     @NotNull
@@ -54,22 +56,23 @@ public class ShippingAddressSaveRequestDto {
     @NotNull
     private String sigunguEnglish;
     @NotNull
-    private String roadNameCode;
+    private String roadnameCode;
     @NotNull
-    private String roadName;
+    private String roadname;
     @NotNull
-    private String roadNameEnglish;
+    private String roadnameEnglish;
     @NotNull
-    private String bName;
+    private String bname;
     @NotNull
-    private String bNameEnglish;
+    private String bnameEnglish;
 
     @Builder
-    public ShippingAddressSaveRequestDto(User user, String name, ShippingMain main, String zoneCode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadNameCode, String roadName, String roadNameEnglish, String bName, String bNameEnglish) {
+    public ShippingAddressSaveRequestDto(User user, String name, ShippingMain main, String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadnameCode, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
         this.user = user;
         this.name = name;
         this.main = main;
-        this.zoneCode = zoneCode;
+        this.addressDetail=addressDetail;
+        this.zonecode = zonecode;
         this.address = address;
         this.addressEnglish = addressEnglish;
         this.addressType = addressType;
@@ -85,11 +88,11 @@ public class ShippingAddressSaveRequestDto {
         this.sidoEnglish = sidoEnglish;
         this.sigungu = sigungu;
         this.sigunguEnglish = sigunguEnglish;
-        this.roadNameCode = roadNameCode;
-        this.roadName = roadName;
-        this.roadNameEnglish = roadNameEnglish;
-        this.bName = bName;
-        this.bNameEnglish = bNameEnglish;
+        this.roadnameCode = roadnameCode;
+        this.roadname = roadname;
+        this.roadnameEnglish = roadnameEnglish;
+        this.bname = bname;
+        this.bnameEnglish = bnameEnglish;
     }
 
     public ShippingAddress toEntity(User user){
@@ -97,7 +100,8 @@ public class ShippingAddressSaveRequestDto {
                 .user(user)
                 .name(this.name)
                 .main(this.main)
-                .zoneCode(this.zoneCode)
+                .addressDetail(this.addressDetail)
+                .zonecode(this.zonecode)
                 .address(this.address)
                 .addressEnglish(this.addressEnglish)
                 .addressType(this.addressType)
@@ -113,10 +117,10 @@ public class ShippingAddressSaveRequestDto {
                 .sidoEnglish(this.sidoEnglish)
                 .sigungu(this.sigungu)
                 .sigunguEnglish(this.sigunguEnglish)
-                .roadName(this.roadName)
-                .roadNameEnglish(this.roadNameEnglish)
-                .bName(this.bName)
-                .bNameEnglish(this.bNameEnglish)
+                .roadname(this.roadname)
+                .roadnameEnglish(this.roadnameEnglish)
+                .bname(this.bname)
+                .bnameEnglish(this.bnameEnglish)
                 .build();
     }
 }

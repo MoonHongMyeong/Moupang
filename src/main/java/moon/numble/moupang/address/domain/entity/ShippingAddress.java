@@ -30,7 +30,10 @@ public class ShippingAddress extends BaseTimeEntity {
     private ShippingMain main;
 
     @Column
-    private String zoneCode;
+    private String addressDetail;
+
+    @Column
+    private String zonecode;
 
     @Column
     private String address;
@@ -78,26 +81,27 @@ public class ShippingAddress extends BaseTimeEntity {
     private String sigunguEnglish;
 
     @Column
-    private String roadNameCode;
+    private String roadnameCode;
 
     @Column
-    private String roadName;
+    private String roadname;
 
     @Column
-    private String roadNameEnglish;
+    private String roadnameEnglish;
 
     @Column
-    private String bName;
+    private String bname;
 
     @Column
-    private String bNameEnglish;
+    private String bnameEnglish;
 
     @Builder
-    public ShippingAddress(User user, String name, ShippingMain main, String zoneCode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadNameCode, String roadName, String roadNameEnglish, String bName, String bNameEnglish) {
+    public ShippingAddress(User user, String name, ShippingMain main, String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadnameCode, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
         this.user=user;
         this.name = name;
         this.main = main;
-        this.zoneCode = zoneCode;
+        this.addressDetail=addressDetail;
+        this.zonecode = zonecode;
         this.address = address;
         this.addressEnglish = addressEnglish;
         this.addressType = addressType;
@@ -113,11 +117,11 @@ public class ShippingAddress extends BaseTimeEntity {
         this.sidoEnglish = sidoEnglish;
         this.sigungu = sigungu;
         this.sigunguEnglish = sigunguEnglish;
-        this.roadNameCode = roadNameCode;
-        this.roadName = roadName;
-        this.roadNameEnglish = roadNameEnglish;
-        this.bName = bName;
-        this.bNameEnglish = bNameEnglish;
+        this.roadnameCode = roadnameCode;
+        this.roadname = roadname;
+        this.roadnameEnglish = roadnameEnglish;
+        this.bname = bname;
+        this.bnameEnglish = bnameEnglish;
     }
 
     public void updateName(String name){
@@ -132,8 +136,9 @@ public class ShippingAddress extends BaseTimeEntity {
         this.main = ShippingMain.NOT_MAIN;
     }
 
-    public void updateAddress(String zoneCode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadNameCode, String roadName, String roadNameEnglish, String bName, String bNameEnglish) {
-        this.zoneCode = zoneCode;
+    public void updateAddress(String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadnameCode, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
+        this.addressDetail = addressDetail;
+        this.zonecode = zonecode;
         this.address = address;
         this.addressEnglish = addressEnglish;
         this.addressType = addressType;
@@ -149,10 +154,10 @@ public class ShippingAddress extends BaseTimeEntity {
         this.sidoEnglish = sidoEnglish;
         this.sigungu = sigungu;
         this.sigunguEnglish = sigunguEnglish;
-        this.roadNameCode = roadNameCode;
-        this.roadName = roadName;
-        this.roadNameEnglish = roadNameEnglish;
-        this.bName = bName;
-        this.bNameEnglish = bNameEnglish;
+        this.roadnameCode = roadnameCode;
+        this.roadname = roadname;
+        this.roadnameEnglish = roadnameEnglish;
+        this.bname = bname;
+        this.bnameEnglish = bnameEnglish;
     }
 }
