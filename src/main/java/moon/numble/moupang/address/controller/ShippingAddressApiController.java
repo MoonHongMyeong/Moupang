@@ -66,6 +66,12 @@ public class ShippingAddressApiController {
                                                                     @RequestBody @Valid ShippingAddressUpdateRequestDto updateDto){
 
         userService.verifyUser(sessionUser,userId);
+        User user = userService.getUserToSessionUser(sessionUser);
+
+        if(updateDto.getMain().equals(ShippingMain.MAIN)){
+            addressService.allCancelMain(user);
+        }
+        
         ShippingAddressResponseDto response = addressService.update(addressId, updateDto);
 
         return ResponseEntity.ok(response);
