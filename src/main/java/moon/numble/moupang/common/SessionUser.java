@@ -2,6 +2,7 @@ package moon.numble.moupang.common;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import moon.numble.moupang.user.domain.entity.Role;
 import moon.numble.moupang.user.domain.entity.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
