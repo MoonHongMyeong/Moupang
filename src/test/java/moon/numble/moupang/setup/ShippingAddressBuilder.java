@@ -11,7 +11,7 @@ public class ShippingAddressBuilder {
                 .user(user)
                 .name("addressShipping")
                 .main(main)
-                .zoneCode("zoneCode")
+                .zonecode("zoneCode")
                 .address("address")
                 .addressEnglish("addressEnglish")
                 .addressType("addressType")
@@ -27,10 +27,10 @@ public class ShippingAddressBuilder {
                 .sidoEnglish("sidoEnglish")
                 .sigungu("sigungu")
                 .sigunguEnglish("sigunguEnglish")
-                .roadName("roadName")
-                .roadNameEnglish("roadNameEnglish")
-                .bName("bName")
-                .bNameEnglish("bNameEnglish")
+                .roadname("roadName")
+                .roadnameEnglish("roadNameEnglish")
+                .bname("bName")
+                .bnameEnglish("bNameEnglish")
                 .build();
     }
 
