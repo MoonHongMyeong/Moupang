@@ -2,6 +2,7 @@ package moon.numble.moupang.address.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moon.numble.moupang.address.domain.entity.ShippingMain;
 import moon.numble.moupang.address.dto.ShippingAddressResponseDto;
 import moon.numble.moupang.address.dto.ShippingAddressSaveRequestDto;
 import moon.numble.moupang.address.service.ShippingAddressService;
@@ -32,7 +33,7 @@ public class ShippingAddressApiController {
 
         User user = userService.getUserToSessionUser(sessionUser);
 
-        if(addressSaveRequestDto.getIsMain() == "MAIN"){
+        if(addressSaveRequestDto.getMain() == ShippingMain.MAIN){
             addressService.allCancelMain(user);
         }
 
