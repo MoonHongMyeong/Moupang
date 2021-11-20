@@ -1,11 +1,14 @@
 package moon.numble.moupang.user.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import moon.numble.moupang.address.domain.entity.ShippingAddress;
 import moon.numble.moupang.common.BaseTimeEntity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -27,6 +30,10 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @JsonIgnore
+    @OneToMany(targetEntity = ShippingAddress.class, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ShippingAddress> shippingAddresses;
 
     @Builder
     public User(String email, String password, String name, String phone, Role role){
@@ -55,13 +62,5 @@ public class User extends BaseTimeEntity {
     public User updatePhone(String phone){
         this.phone = phone;
         return this;
-    }
-
-    public String getRoleKey(){
-        return this.role.getKey();
-    }
-
-    public String getRoleKr(){
-        return this.role.getValue();
     }
 }

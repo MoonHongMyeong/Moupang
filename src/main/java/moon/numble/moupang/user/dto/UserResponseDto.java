@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import moon.numble.moupang.common.SessionUser;
+import moon.numble.moupang.user.domain.entity.Role;
 import moon.numble.moupang.user.domain.entity.User;
 
 @Getter
@@ -13,10 +14,10 @@ public class UserResponseDto {
     private String email;
     private String name;
     private String phone;
-    private String role;
+    private Role role;
 
     @Builder
-    public UserResponseDto(Long id, String email, String name, String phone, String role){
+    public UserResponseDto(Long id, String email, String name, String phone, Role role){
         this.id=id;
         this.email=email;
         this.name=name;
@@ -30,7 +31,7 @@ public class UserResponseDto {
                 .email(user.getEmail())
                 .name(user.getName())
                 .phone(user.getPhone())
-                .role(user.getRoleKr())
+                .role(user.getRole())
                 .build();
     }
 
@@ -40,7 +41,7 @@ public class UserResponseDto {
                 .email(user.getEmail())
                 .name(user.getName())
                 .phone(user.getPhone())
-                .role(user.getRole())
+                .role(Enum.valueOf(Role.class, user.getRole()))
                 .build();
     }
 }

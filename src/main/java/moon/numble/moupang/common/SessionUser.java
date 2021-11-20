@@ -2,6 +2,7 @@ package moon.numble.moupang.common;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import moon.numble.moupang.user.domain.entity.Role;
 import moon.numble.moupang.user.domain.entity.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -27,6 +28,6 @@ public class SessionUser implements Serializable {
         this.email=user.getEmail();
         this.name=user.getName();
         this.phone=user.getPhone();
-        this.role=user.getRoleKr();
+        this.role=user.getRole().toString();
     }
 }
