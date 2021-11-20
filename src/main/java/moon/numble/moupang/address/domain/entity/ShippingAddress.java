@@ -82,9 +82,6 @@ public class ShippingAddress extends BaseTimeEntity {
     private String sigunguEnglish;
 
     @Column
-    private String roadnameCode;
-
-    @Column
     private String roadname;
 
     @Column
@@ -97,7 +94,7 @@ public class ShippingAddress extends BaseTimeEntity {
     private String bnameEnglish;
 
     @Builder
-    public ShippingAddress(User user, String name, ShippingMain main, String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadnameCode, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
+    public ShippingAddress(User user, String name, ShippingMain main, String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
         this.user=user;
         this.name = name;
         this.main = main;
@@ -118,7 +115,6 @@ public class ShippingAddress extends BaseTimeEntity {
         this.sidoEnglish = sidoEnglish;
         this.sigungu = sigungu;
         this.sigunguEnglish = sigunguEnglish;
-        this.roadnameCode = roadnameCode;
         this.roadname = roadname;
         this.roadnameEnglish = roadnameEnglish;
         this.bname = bname;
@@ -137,7 +133,7 @@ public class ShippingAddress extends BaseTimeEntity {
         this.main = ShippingMain.NOT_MAIN;
     }
 
-    public void updateAddress(String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadnameCode, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
+    public void updateAddress(String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
         this.addressDetail = addressDetail;
         this.zonecode = zonecode;
         this.address = address;
@@ -155,7 +151,6 @@ public class ShippingAddress extends BaseTimeEntity {
         this.sidoEnglish = sidoEnglish;
         this.sigungu = sigungu;
         this.sigunguEnglish = sigunguEnglish;
-        this.roadnameCode = roadnameCode;
         this.roadname = roadname;
         this.roadnameEnglish = roadnameEnglish;
         this.bname = bname;
@@ -181,7 +176,6 @@ public class ShippingAddress extends BaseTimeEntity {
         this.sidoEnglish = dto.getSidoEnglish();
         this.sigungu = dto.getSigunguEnglish();
         this.sigunguEnglish = dto.getSigunguEnglish();
-        this.roadnameCode = dto.getRoadnameCode();
         this.roadname = dto.getRoadname();
         this.roadnameEnglish = dto.getRoadnameEnglish();
         this.bname = dto.getBname();

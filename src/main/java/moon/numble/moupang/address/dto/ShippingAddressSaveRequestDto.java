@@ -56,8 +56,6 @@ public class ShippingAddressSaveRequestDto {
     @NotNull
     private String sigunguEnglish;
     @NotNull
-    private String roadnameCode;
-    @NotNull
     private String roadname;
     @NotNull
     private String roadnameEnglish;
@@ -67,7 +65,7 @@ public class ShippingAddressSaveRequestDto {
     private String bnameEnglish;
 
     @Builder
-    public ShippingAddressSaveRequestDto(User user, String name, ShippingMain main, String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadnameCode, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
+    public ShippingAddressSaveRequestDto(User user, String name, ShippingMain main, String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
         this.user = user;
         this.name = name;
         this.main = main;
@@ -88,7 +86,6 @@ public class ShippingAddressSaveRequestDto {
         this.sidoEnglish = sidoEnglish;
         this.sigungu = sigungu;
         this.sigunguEnglish = sigunguEnglish;
-        this.roadnameCode = roadnameCode;
         this.roadname = roadname;
         this.roadnameEnglish = roadnameEnglish;
         this.bname = bname;
