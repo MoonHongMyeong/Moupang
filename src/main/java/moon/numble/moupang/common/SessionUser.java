@@ -28,6 +28,6 @@ public class SessionUser implements Serializable {
         this.email=user.getEmail();
         this.name=user.getName();
         this.phone=user.getPhone();
-        this.role=user.getRoleKr();
+        this.role=user.getRole().toString();
     }
 }

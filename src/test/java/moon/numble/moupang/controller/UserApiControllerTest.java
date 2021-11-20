@@ -127,8 +127,6 @@ public class UserApiControllerTest{
 
         MockHttpSession session = new MockHttpSession();
 
-        loginService.login(sessionUser);
-
         mvc.perform(get("/api/v1/user")
                         .session(session))
                 .andDo(print())
@@ -140,7 +138,6 @@ public class UserApiControllerTest{
 
        mockHttpSession = new MockHttpSession();
        loginService = new SessionLoginService(mockHttpSession);
-       loginService.login(sessionUser);
 
        mvc.perform(get("/api/v1/user")
                        .session(mockHttpSession)
@@ -158,7 +155,6 @@ public class UserApiControllerTest{
 
         mockHttpSession = new MockHttpSession();
         loginService = new SessionLoginService(mockHttpSession);
-        loginService.login(sessionUser);
 
         mvc.perform(put("/api/v1/user/{id}/email", setupUser.getId())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -178,7 +174,6 @@ public class UserApiControllerTest{
 
         mockHttpSession = new MockHttpSession();
         loginService = new SessionLoginService(mockHttpSession);
-        loginService.login(sessionUser);
 
         mvc.perform(put("/api/v1/user/{id}/password", setupUser.getId())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -196,7 +191,6 @@ public class UserApiControllerTest{
 
         mockHttpSession = new MockHttpSession();
         loginService = new SessionLoginService(mockHttpSession);
-        loginService.login(sessionUser);
 
         mvc.perform(put("/api/v1/user/{id}/name", setupUser.getId())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -215,7 +209,6 @@ public class UserApiControllerTest{
 
         mockHttpSession = new MockHttpSession();
         loginService = new SessionLoginService(mockHttpSession);
-        loginService.login(sessionUser);
 
         mvc.perform(put("/api/v1/user/{id}/phone", setupUser.getId())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -231,7 +224,6 @@ public class UserApiControllerTest{
     public void 회원탈퇴_성공() throws Exception {
         mockHttpSession = new MockHttpSession();
         loginService = new SessionLoginService(mockHttpSession);
-        loginService.login(sessionUser);
 
         mvc.perform(delete("/api/v1/user/{id}", setupUser.getId())
                 .session(mockHttpSession)
