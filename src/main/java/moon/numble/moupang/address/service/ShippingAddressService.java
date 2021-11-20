@@ -7,6 +7,7 @@ import moon.numble.moupang.address.domain.repository.ShippingAddressCustomReposi
 import moon.numble.moupang.address.domain.repository.ShippingAddressRepository;
 import moon.numble.moupang.address.dto.ShippingAddressResponseDto;
 import moon.numble.moupang.address.dto.ShippingAddressSaveRequestDto;
+import moon.numble.moupang.address.dto.ShippingAddressUpdateRequestDto;
 import moon.numble.moupang.user.domain.entity.User;
 import org.springframework.stereotype.Service;
 
@@ -45,4 +46,11 @@ public class ShippingAddressService {
                 .forEach(shippingAddress -> shippingAddress.cancelMain());
     }
 
+    public ShippingAddressResponseDto update(Long addressId, ShippingAddressUpdateRequestDto updateDto) {
+
+        ShippingAddress shippingAddress = addressRepository.getById(addressId);
+        shippingAddress.updateAddress(updateDto);
+
+        return ShippingAddressResponseDto.of(shippingAddress);
+    }
 }

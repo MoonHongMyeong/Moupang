@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import moon.numble.moupang.address.domain.entity.ShippingMain;
 import moon.numble.moupang.address.dto.ShippingAddressResponseDto;
 import moon.numble.moupang.address.dto.ShippingAddressSaveRequestDto;
+import moon.numble.moupang.address.dto.ShippingAddressUpdateRequestDto;
 import moon.numble.moupang.address.service.ShippingAddressService;
 import moon.numble.moupang.common.SessionUser;
 import moon.numble.moupang.common.annotation.LoginUser;
@@ -55,5 +56,18 @@ public class ShippingAddressApiController {
         ShippingAddressResponseDto response = addressService.create(user, addressSaveRequestDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @LoginRequired
+    @PutMapping("/user/{userId}/address/{addressId}")
+    public ResponseEntity<ShippingAddressResponseDto> updateAddress(@LoginUser SessionUser sessionUser,
+                                                                    @PathVariable("userId") Long userId,
+                                                                    @PathVariable("addressId") Long addressId,
+                                                                    @RequestBody @Valid ShippingAddressUpdateRequestDto updateDto){
+
+        userService.verifyUser(sessionUser,userId);
+        ShippingAddressResponseDto response = addressService.update(addressId, updateDto);
+
+        return ResponseEntity.ok(response);
     }
 }
