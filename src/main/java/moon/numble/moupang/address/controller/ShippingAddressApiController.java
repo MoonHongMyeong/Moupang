@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,11 +27,25 @@ public class ShippingAddressApiController {
     private final UserService userService;
 
     @LoginRequired
+    @GetMapping("/user/{userId}/address")
+    public ResponseEntity<List<ShippingAddressResponseDto>> getAddresses(@LoginUser SessionUser sessionUser,
+                                                                         @PathVariable("userId") Long userId){
+
+        userService.verifyUser(sessionUser,userId);
+        User user = userService.getUserToSessionUser(sessionUser);
+
+        List<ShippingAddressResponseDto> response = addressService.getAddresses(user);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @LoginRequired
     @PostMapping("/user/{userId}/address")
     public ResponseEntity<ShippingAddressResponseDto> createAddress(@LoginUser SessionUser sessionUser,
                                                                     @PathVariable("userId") Long userId,
                                                                     @RequestBody @Valid ShippingAddressSaveRequestDto addressSaveRequestDto){
 
+        userService.verifyUser(sessionUser,userId);
         User user = userService.getUserToSessionUser(sessionUser);
 
         if(addressSaveRequestDto.getMain() == ShippingMain.MAIN){

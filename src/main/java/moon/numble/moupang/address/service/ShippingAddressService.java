@@ -11,12 +11,20 @@ import moon.numble.moupang.user.domain.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ShippingAddressService {
     private final ShippingAddressCustomRepository addressCustomRepository;
     private final ShippingAddressRepository addressRepository;
+
+    public List<ShippingAddressResponseDto> getAddresses(User user) {
+        return addressCustomRepository.findAllUserAddress(user)
+                .stream()
+                .map(shippingAddress -> ShippingAddressResponseDto.of(shippingAddress))
+                .collect(Collectors.toList());
+    }
 
     public ShippingAddressResponseDto create(User user, ShippingAddressSaveRequestDto addressSaveRequestDto) {
 
@@ -36,4 +44,5 @@ public class ShippingAddressService {
                 .filter(shippingAddress -> shippingAddress.getMain() == ShippingMain.MAIN)
                 .forEach(shippingAddress -> shippingAddress.cancelMain());
     }
+
 }
