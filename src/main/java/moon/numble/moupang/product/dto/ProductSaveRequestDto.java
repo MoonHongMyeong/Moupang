@@ -18,32 +18,32 @@ import javax.validation.constraints.NotNull;
 public class ProductSaveRequestDto {
 
     @NotNull
-    private Category type;
+    private Long type;
     @NotEmpty
     private String title;
     @NotNull
-    private Company company;
-    @NotEmpty
+    private String company;
+    @NotNull
     private int stock;
-    @NotEmpty
+    @NotNull
     private int salesVolume;
-    @NotEmpty
+    @NotNull
     private double price;
     @Nullable
     private int discountRate;
     @Nullable
     private double discountPrice;
     @NotNull
-    private Goldbox isGoldBox;
+    private String isGoldBox;
     @NotNull
-    private RocketShipping isRocketShipping;
+    private String isRocketShipping;
     @NotNull
     private String thumbnailUrl;
     @NotNull
     private String detailUrl;
 
     @Builder
-    public ProductSaveRequestDto(Category type, String title, Company company, int stock, int salesVolume, double price, int discountRate, double discountPrice, Goldbox isGoldBox, RocketShipping isRocketShipping, String thumbnailUrl, String detailUrl) {
+    public ProductSaveRequestDto(Long type, String title, String company, int stock, int salesVolume, double price, int discountRate, double discountPrice, @NotNull String isGoldBox, @NotNull String isRocketShipping, String thumbnailUrl, String detailUrl) {
         this.type = type;
         this.title = title;
         this.company = company;
@@ -58,18 +58,18 @@ public class ProductSaveRequestDto {
         this.detailUrl = detailUrl;
     }
 
-    public Product toEntity(){
+    public Product toEntity(Category category){
         return Product.builder()
-                .type(this.type)
+                .type(category)
                 .title(this.title)
-                .company(this.company)
+                .company(Company.valueOf(this.company))
                 .stock(this.stock)
                 .salesVolume(this.salesVolume)
                 .price(this.price)
                 .discountRate(this.discountRate)
                 .discountPrice(this.discountPrice)
-                .isGoldBox(this.isGoldBox)
-                .isRocketShipping(this.isRocketShipping)
+                .isGoldBox(Goldbox.valueOf(this.isGoldBox))
+                .isRocketShipping(RocketShipping.valueOf(this.isRocketShipping))
                 .thumbnailUrl(this.thumbnailUrl)
                 .detailUrl(this.detailUrl)
                 .build();
