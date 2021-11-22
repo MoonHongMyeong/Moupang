@@ -41,4 +41,9 @@ public class ProductService {
         return product.get();
     }
 
+    public void delete(Long productsId) {
+
+        Product product = getProductById(productsId);
+        product.removeProduct();
+    }
 }

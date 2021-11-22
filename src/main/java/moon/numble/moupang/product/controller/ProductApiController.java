@@ -31,5 +31,11 @@ public class ProductApiController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/products/{productsId}")
+    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable("productsId") Long productsId){
+        productService.delete(productsId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 
 }
