@@ -21,7 +21,9 @@ public enum ErrorCode {
     LOGIN_VALIDATION(400, "Login Validation", "아이디 혹은 비밀번호를 잘못입력했습니다."),
     //login
     UNAUTHORIZED_ACCESS(401, "Unauthorized Access", "승인되지 않음."),
-    INVALID_USER_ACCESS(401, "Invalid User Access", "잘못된 사용자 접근입니다.")
+    INVALID_USER_ACCESS(401, "Invalid User Access", "잘못된 사용자 접근입니다."),
+    //product
+    PRODUCT_NOT_FOUND(404, "Product is Not Found", "제품을 찾을 수 없습니다.")
     ;
 
     private final int status;
