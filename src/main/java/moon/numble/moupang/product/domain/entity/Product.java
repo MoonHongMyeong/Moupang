@@ -18,7 +18,8 @@ public class Product extends BaseTimeEntity {
     @Column(name = "product_id")
     private Long id;
 
-    @JoinColumn(name = "category_id")
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
     private Category type;
 
     @Column
@@ -76,19 +77,22 @@ public class Product extends BaseTimeEntity {
 
     public Product updateProduct(ProductUpdateRequestDto dto) {
         return Product.builder()
-                .type(dto.getType())
                 .title(dto.getTitle())
-                .company(dto.getCompany())
+                .company(Company.valueOf(dto.getCompany()))
                 .stock(dto.getStock())
                 .salesVolume(dto.getSalesVolume())
                 .price(dto.getPrice())
                 .discountRate(dto.getDiscountRate())
                 .discountPrice(dto.getDiscountPrice())
-                .isGoldBox(dto.getIsGoldBox())
-                .isRocketShipping(dto.getIsRocketShipping())
+                .isGoldBox(Goldbox.valueOf(dto.getIsGoldBox()))
+                .isRocketShipping(RocketShipping.valueOf(dto.getIsRocketShipping()))
                 .thumbnailUrl(dto.getThumbnailUrl())
                 .detailUrl(dto.getDetailUrl())
                 .build();
+    }
+
+    public void updateProductCategory(Category category){
+        this.type=category;
     }
 
     public Product purchaseProduct(){
