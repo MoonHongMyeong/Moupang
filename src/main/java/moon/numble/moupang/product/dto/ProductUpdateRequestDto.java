@@ -2,10 +2,6 @@ package moon.numble.moupang.product.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import moon.numble.moupang.category.domain.entity.Category;
-import moon.numble.moupang.product.domain.entity.Company;
-import moon.numble.moupang.product.domain.entity.Goldbox;
-import moon.numble.moupang.product.domain.entity.RocketShipping;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,11 +11,11 @@ import javax.validation.constraints.NotNull;
 public class ProductUpdateRequestDto {
 
     @NotNull
-    private Category type;
+    private Long type;
     @NotBlank
     private String title;
     @NotNull
-    private Company company;
+    private String company;
     @NotNull
     private int stock;
     @NotNull
@@ -31,9 +27,9 @@ public class ProductUpdateRequestDto {
     @NotNull
     private double discountPrice;
     @NotNull
-    private Goldbox isGoldBox;
+    private String isGoldBox;
     @NotNull
-    private RocketShipping isRocketShipping;
+    private String isRocketShipping;
     @NotNull
     private String thumbnailUrl;
     @NotNull
