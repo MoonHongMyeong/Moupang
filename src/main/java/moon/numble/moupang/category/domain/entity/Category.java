@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import moon.numble.moupang.category.dto.CategoryUpdateRequestDto;
 import moon.numble.moupang.common.BaseTimeEntity;
+import moon.numble.moupang.product.domain.entity.Product;
 
 import javax.persistence.*;
 import java.util.List;
@@ -29,6 +30,10 @@ public class Category extends BaseTimeEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "parents", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Category> categories;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Product> products;
 
 
     @Builder
