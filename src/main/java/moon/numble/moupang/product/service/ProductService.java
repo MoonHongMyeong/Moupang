@@ -1,6 +1,9 @@
 package moon.numble.moupang.product.service;
 
 import lombok.RequiredArgsConstructor;
+import moon.numble.moupang.category.domain.entity.Category;
+import moon.numble.moupang.category.domain.repository.CategoryRepository;
+import moon.numble.moupang.common.exception.EntityNotFoundException;
 import moon.numble.moupang.product.domain.entity.Product;
 import moon.numble.moupang.product.domain.repository.ProductRepository;
 import moon.numble.moupang.product.dto.ProductResponseDto;
@@ -8,8 +11,8 @@ import moon.numble.moupang.product.dto.ProductSaveRequestDto;
 import moon.numble.moupang.product.dto.ProductUpdateRequestDto;
 import moon.numble.moupang.product.exception.ProductNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -17,18 +20,37 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     public ProductResponseDto create(ProductSaveRequestDto dto) {
-        Product product = productRepository.save(dto.toEntity());
+
+        Category category = getCategoryById(dto.getType());
+
+        Product product = productRepository.save(dto.toEntity(category));
+
         return ProductResponseDto.of(product);
     }
 
+    @Transactional
     public ProductResponseDto update(Long productsId, ProductUpdateRequestDto dto) {
 
+        Category category = getCategoryById(dto.getType());
         Product product = getProductById(productsId);
+
+        product.updateProductCategory(category);
         product.updateProduct(dto);
 
         return ProductResponseDto.of(product);
+    }
+
+    private Category getCategoryById(Long categoryId) {
+        Optional<Category> category = categoryRepository.findById(categoryId);
+
+        if(category.isEmpty()){
+            throw new EntityNotFoundException(categoryId.toString());
+        }
+
+        return category.get();
     }
 
     private Product getProductById(Long productsId) {
