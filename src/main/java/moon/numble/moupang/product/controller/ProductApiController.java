@@ -43,6 +43,14 @@ public class ProductApiController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/products")
+    public ResponseEntity<List<ProductListResponseDto>> getProducts(){
+
+        List<ProductListResponseDto> response = productService.getAllProducts();
+
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/products")
     public ResponseEntity<ProductResponseDto> createProduct(@RequestBody @Valid ProductSaveRequestDto dto){
         ProductResponseDto response = productService.create(dto);

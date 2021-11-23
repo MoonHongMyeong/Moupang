@@ -26,6 +26,13 @@ public class ProductSearchCustomRepositoryImpl extends QuerydslRepositorySupport
     }
 
     @Override
+    public List<Product> getAll() {
+        return queryFactory.selectFrom(product)
+                .orderBy(product.id.desc())
+                .fetch();
+    }
+
+    @Override
     public List<Product> search(SearchProductCondition condition) {
 
         BooleanBuilder builder = new BooleanBuilder();

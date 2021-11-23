@@ -6,6 +6,7 @@ import moon.numble.moupang.category.domain.repository.CategoryRepository;
 import moon.numble.moupang.common.exception.EntityNotFoundException;
 import moon.numble.moupang.product.domain.entity.Product;
 import moon.numble.moupang.product.domain.repository.ProductRepository;
+import moon.numble.moupang.product.dto.ProductListResponseDto;
 import moon.numble.moupang.product.dto.ProductResponseDto;
 import moon.numble.moupang.product.dto.ProductSaveRequestDto;
 import moon.numble.moupang.product.dto.ProductUpdateRequestDto;
@@ -13,7 +14,9 @@ import moon.numble.moupang.product.exception.ProductNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +24,12 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+
+    public List<ProductListResponseDto> getAllProducts() {
+        return productRepository.getAll().stream()
+                .map(product -> ProductListResponseDto.of(product))
+                .collect(Collectors.toList());
+    }
 
     public ProductResponseDto create(ProductSaveRequestDto dto) {
 

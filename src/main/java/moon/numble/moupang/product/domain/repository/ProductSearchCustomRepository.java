@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ProductSearchCustomRepository {
     List<Product> search(SearchProductCondition condition);
+    List<Product> getAll();
 }
