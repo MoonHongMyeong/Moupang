@@ -43,12 +43,12 @@ public class ProductOptionApiController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-//    @PostMapping("/products/{productId}/cOptions")
-//    public ResponseEntity<ClothesOptionResponseDto> createOption(@RequestBody@Valid ClothesOptionSaveRequestDto dto,
-//                                                                 @PathVariable("productId") Long productId){
-//
-//        ClothesOptionResponseDto response = productOptionService.create(dto, productId);
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-//    }
+    @PostMapping("/products/{productId}/cOptions")
+    public ResponseEntity<ClothesOptionResponseDto> createOption(@RequestBody@Valid ClothesOptionSaveRequestDto dto,
+                                                                 @PathVariable("productId") Long productId){
+
+        ClothesOptionResponseDto response = productOptionService.create(dto, productId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
 }

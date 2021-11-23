@@ -2,13 +2,13 @@ package moon.numble.moupang.product.service;
 
 import lombok.RequiredArgsConstructor;
 import moon.numble.moupang.common.exception.EntityNotFoundException;
+import moon.numble.moupang.product.domain.entity.ClothesOption;
 import moon.numble.moupang.product.domain.entity.Product;
 import moon.numble.moupang.product.domain.entity.ProductOption;
+import moon.numble.moupang.product.domain.repository.ClothesOptionRepository;
 import moon.numble.moupang.product.domain.repository.ProductOptionRepository;
 import moon.numble.moupang.product.domain.repository.ProductRepository;
-import moon.numble.moupang.product.dto.ProductOptionResponseDto;
-import moon.numble.moupang.product.dto.ProductOptionSaveRequestDto;
-import moon.numble.moupang.product.dto.ProductOptionUpdateRequestDto;
+import moon.numble.moupang.product.dto.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,6 +19,7 @@ public class ProductOptionService {
 
     private final ProductRepository productRepository;
     private final ProductOptionRepository productOptionRepository;
+    private final ClothesOptionRepository clothesOptionRepository;
 
     public ProductOptionResponseDto create(ProductOptionSaveRequestDto dto, Long productId) {
 
@@ -61,5 +62,13 @@ public class ProductOptionService {
         ProductOption productOption = getProductOptionById(optionId);
 
         productOptionRepository.delete(productOption);
+    }
+
+    public ClothesOptionResponseDto create(ClothesOptionSaveRequestDto dto, Long productId){
+        Product product = getProductById(productId);
+
+        ClothesOption option = clothesOptionRepository.save(dto.toEntity(product));
+
+        return ClothesOptionResponseDto.of(option);
     }
 }
