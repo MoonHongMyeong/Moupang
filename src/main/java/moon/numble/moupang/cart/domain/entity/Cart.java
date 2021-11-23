@@ -1,5 +1,6 @@
 package moon.numble.moupang.cart.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +23,9 @@ public class Cart extends BaseTimeEntity {
     @JoinColumn(name = "product_product_id",nullable = false)
     private Product product;
 
+    @JsonIgnore
     @OneToOne
-    @JoinColumn(name = "user_user_id",nullable = false)
+    @JoinColumn(name = "user_user_id", nullable = false)
     private User user;
 
     @Enumerated(EnumType.STRING)
