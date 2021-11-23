@@ -8,6 +8,7 @@ import moon.numble.moupang.product.domain.repository.ProductOptionRepository;
 import moon.numble.moupang.product.domain.repository.ProductRepository;
 import moon.numble.moupang.product.dto.ProductOptionResponseDto;
 import moon.numble.moupang.product.dto.ProductOptionSaveRequestDto;
+import moon.numble.moupang.product.dto.ProductOptionUpdateRequestDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -36,5 +37,23 @@ public class ProductOptionService {
         }
 
         return product.get();
+    }
+
+    public ProductOptionResponseDto update(ProductOptionUpdateRequestDto dto, Long optionId) {
+        ProductOption productOption = getProductOptionById(optionId);
+
+        productOption.update(dto);
+
+        return ProductOptionResponseDto.of(productOption);
+    }
+
+    private ProductOption getProductOptionById(Long optionId) {
+        Optional<ProductOption> productOption = productOptionRepository.findById(optionId);
+
+        if(productOption.isEmpty()){
+            throw new EntityNotFoundException(optionId.toString());
+        }
+
+        return productOption.get();
     }
 }

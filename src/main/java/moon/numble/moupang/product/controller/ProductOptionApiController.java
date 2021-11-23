@@ -25,4 +25,13 @@ public class ProductOptionApiController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @PutMapping("/product/{productId}/options/{optionId}")
+    public ResponseEntity<ProductOptionResponseDto> updateOption(@RequestBody @Valid ProductOptionUpdateRequestDto dto,
+                                                                 @PathVariable("productId") Long productId,
+                                                                 @PathVariable("optionId") Long optionId){
+        ProductOptionResponseDto response = productOptionService.update(dto, optionId);
+
+        return ResponseEntity.ok(response);
+    }
 }
