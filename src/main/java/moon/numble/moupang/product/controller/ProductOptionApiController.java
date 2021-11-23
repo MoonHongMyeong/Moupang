@@ -34,4 +34,12 @@ public class ProductOptionApiController {
 
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/product/{productId}/options/{optionId}")
+    public ResponseEntity<HttpStatus> deleteOption(@PathVariable("optionId") Long optionId){
+
+        productOptionService.delete(optionId);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

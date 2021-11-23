@@ -56,4 +56,10 @@ public class ProductOptionService {
 
         return productOption.get();
     }
+
+    public void delete(Long optionId) {
+        ProductOption productOption = getProductOptionById(optionId);
+
+        productOptionRepository.delete(productOption);
+    }
 }
