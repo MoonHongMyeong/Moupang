@@ -8,6 +8,7 @@ import moon.numble.moupang.common.BaseTimeEntity;
 import moon.numble.moupang.product.dto.ProductUpdateRequestDto;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -57,6 +58,12 @@ public class Product extends BaseTimeEntity {
 
     @Column
     private Integer isDeleted;
+
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<ProductOption> productOptions;
+
+    @OneToOne
+    private ClothesOption clothesOption;
 
     @Builder
     public Product(Category type, String title, Company company, int stock, int salesVolume, double price, int discountRate, double discountPrice, Goldbox isGoldBox, RocketShipping isRocketShipping, String thumbnailUrl, String detailUrl, Integer isDeleted) {
