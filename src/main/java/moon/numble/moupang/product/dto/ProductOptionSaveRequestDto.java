@@ -12,16 +12,13 @@ import javax.validation.constraints.NotNull;
 @Getter
 @NoArgsConstructor
 public class ProductOptionSaveRequestDto {
-    @NotNull
-    private Product product;
     @NotEmpty
     private String title;
     @NotNull
     private Double price;
 
     @Builder
-    public ProductOptionSaveRequestDto(Product product, String title, Double price) {
-        this.product = product;
+    public ProductOptionSaveRequestDto(String title, Double price) {
         this.title = title;
         this.price = price;
     }
