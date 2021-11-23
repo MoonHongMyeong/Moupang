@@ -58,7 +58,7 @@ public class ProductOptionService {
         return productOption.get();
     }
 
-    public void delete(Long optionId) {
+    public void deleteProductOption(Long optionId) {
         ProductOption productOption = getProductOptionById(optionId);
 
         productOptionRepository.delete(productOption);
@@ -71,4 +71,28 @@ public class ProductOptionService {
 
         return ClothesOptionResponseDto.of(option);
     }
+
+    public ClothesOptionResponseDto update(ClothesOptionUpdateRequestDto dto, Long optionId){
+        ClothesOption option = getClothesOptionById(optionId);
+
+        option.update(dto);
+
+        return ClothesOptionResponseDto.of(option);
+    }
+
+    private ClothesOption getClothesOptionById(Long optionId) {
+        Optional<ClothesOption> option = clothesOptionRepository.findById(optionId);
+
+        if(option.isEmpty()){
+            throw new EntityNotFoundException(optionId.toString());
+        }
+
+        return option.get();
+    }
+//
+//    public void deleteClothesOption(Long optionId) {
+//        ClothesOption option = getClothesOptionById(optionId);
+//
+//        clothesOptionRepository.delete(option);
+//    }
 }

@@ -36,9 +36,9 @@ public class ProductOptionApiController {
     }
 
     @DeleteMapping("/products/{productId}/options/{optionId}")
-    public ResponseEntity<HttpStatus> deleteOption(@PathVariable("optionId") Long optionId){
+    public ResponseEntity<HttpStatus> deleteProductOption(@PathVariable("optionId") Long optionId){
 
-        productOptionService.delete(optionId);
+        productOptionService.deleteProductOption(optionId);
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -51,4 +51,20 @@ public class ProductOptionApiController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @PutMapping("/products/{productId}/cOptions/{optionId}")
+    public ResponseEntity<ClothesOptionResponseDto> updateOption(@RequestBody @Valid ClothesOptionUpdateRequestDto dto,
+                                                                 @PathVariable("optionId") Long optionId){
+
+        ClothesOptionResponseDto response = productOptionService.update(dto, optionId);
+
+        return ResponseEntity.ok(response);
+    }
+
+//    @DeleteMapping("/products/{productId}/cOptions/{optionId}")
+//    public ResponseEntity<HttpStatus> deleteClothesOption(@PathVariable("optionId") Long optionId){
+//        productOptionService.deleteClothesOption(optionId);
+//
+//        return ResponseEntity.status(HttpStatus.CREATED).build();
+//    }
 }

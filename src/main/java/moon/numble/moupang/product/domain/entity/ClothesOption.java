@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import moon.numble.moupang.common.BaseTimeEntity;
+import moon.numble.moupang.product.dto.ClothesOptionUpdateRequestDto;
 
 import javax.persistence.*;
 
@@ -35,5 +36,11 @@ public class ClothesOption extends BaseTimeEntity {
         this.size = size;
         this.color = color;
         this.product = product;
+    }
+
+    public void update(ClothesOptionUpdateRequestDto dto){
+        this.isClothes=dto.isClothes();
+        this.size=dto.getSize();
+        this.color=dto.getColor();
     }
 }
