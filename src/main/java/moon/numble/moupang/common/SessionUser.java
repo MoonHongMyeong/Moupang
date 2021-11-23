@@ -2,12 +2,15 @@ package moon.numble.moupang.common;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import moon.numble.moupang.user.domain.entity.IsMembership;
 import moon.numble.moupang.user.domain.entity.Role;
 import moon.numble.moupang.user.domain.entity.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.io.Serializable;
 
 @Getter
@@ -22,6 +25,8 @@ public class SessionUser implements Serializable {
     private String name;
     private String phone;
     private String role;
+    @Enumerated(EnumType.STRING)
+    private IsMembership membership;
 
     public SessionUser(User user){
         this.id=user.getId();
@@ -29,5 +34,6 @@ public class SessionUser implements Serializable {
         this.name=user.getName();
         this.phone=user.getPhone();
         this.role=user.getRole().toString();
+        this.membership=user.getMembership();
     }
 }

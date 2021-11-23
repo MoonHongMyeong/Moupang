@@ -26,6 +26,8 @@ public class User extends BaseTimeEntity {
     private String name;
 
     private String phone;
+    @Enumerated(EnumType.STRING)
+    private IsMembership membership;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -36,12 +38,13 @@ public class User extends BaseTimeEntity {
     private List<ShippingAddress> shippingAddresses;
 
     @Builder
-    public User(String email, String password, String name, String phone, Role role){
+    public User(String email, String password, String name, String phone, Role role, IsMembership membership){
         this.email = email;
         this.password = password;
         this.name = name;
         this.phone = phone;
         this.role = role;
+        this.membership=membership;
     }
 
     public User updateEmail(String email){
@@ -61,6 +64,16 @@ public class User extends BaseTimeEntity {
 
     public User updatePhone(String phone){
         this.phone = phone;
+        return this;
+    }
+
+    public User joinMember(){
+        this.membership=IsMembership.MEMBERSHIP;
+        return this;
+    }
+
+    public User detachMember(){
+        this.membership=IsMembership.NON_MEMBERSHIP;
         return this;
     }
 }

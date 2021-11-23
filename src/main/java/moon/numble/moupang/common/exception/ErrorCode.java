@@ -19,6 +19,8 @@ public enum ErrorCode {
     USER_NOT_FOUND(400, "User Not Found", "존재하지 않는 유저입니다."),
     NOT_MATCHED_PASSWORD(401, "Not Matched Password", "비밀번호를 틀렸습니다."),
     LOGIN_VALIDATION(400, "Login Validation", "아이디 혹은 비밀번호를 잘못입력했습니다."),
+    ALREADY_MEMBERSHIP(409, "Already Membership", "이미 멤버십에 가입되어있습니다."),
+    MEMBERSHIP_NOT_FOUND(400, "Membership Not Found", "멤버십에 가입한 유저가 아닙니다."),
     //login
     UNAUTHORIZED_ACCESS(401, "Unauthorized Access", "승인되지 않음."),
     INVALID_USER_ACCESS(401, "Invalid User Access", "잘못된 사용자 접근입니다."),
