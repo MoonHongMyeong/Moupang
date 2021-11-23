@@ -28,8 +28,22 @@ public class CartService {
             throw new ProductNotFoundException(productId.toString());
         }
 
-        Cart cartItem = cartRepository.save(dto.toEntity(user, product.get()));
+        Optional<Cart> duplicateProduct = cartRepository.findByProduct(product.get());
 
-        return CartResponseDto.of(cartItem);
+        if(duplicateProduct.isEmpty()){
+
+            Cart cartItem = cartRepository.save(dto.toEntity(user, product.get()));
+
+            return CartResponseDto.of(cartItem);
+
+        }else{
+
+            Cart duplicateCartItem = cartRepository.getById(duplicateProduct.get().getId());
+
+            duplicateCartItem.updateQuantity(dto.getQuantity());
+
+            return CartResponseDto.of(duplicateCartItem);
+
+        }
     }
 }
