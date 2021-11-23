@@ -17,11 +17,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ShippingAddressService {
-    private final ShippingAddressCustomRepository addressCustomRepository;
     private final ShippingAddressRepository addressRepository;
 
     public List<ShippingAddressResponseDto> getAddresses(User user) {
-        return addressCustomRepository.findAllUserAddress(user)
+        return addressRepository.findAllUserAddress(user)
                 .stream()
                 .map(shippingAddress -> ShippingAddressResponseDto.of(shippingAddress))
                 .collect(Collectors.toList());
@@ -36,7 +35,7 @@ public class ShippingAddressService {
     }
 
     private List<ShippingAddress> getAllEntity(User user){
-        return addressCustomRepository.findAllUserAddress(user);
+        return addressRepository.findAllUserAddress(user);
     }
 
     public void allCancelMain(User user) {
