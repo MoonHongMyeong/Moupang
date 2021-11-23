@@ -146,4 +146,18 @@ public class UserApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(UserResponseDto.of(joinMember));
     }
 
+    @LoginRequired
+    @DeleteMapping("/user/{userId}/membership")
+    public ResponseEntity<UserResponseDto> detachMembership(@LoginUser SessionUser sessionUser,
+                                                            @PathVariable("userId") Long userId){
+        userService.verifyUser(sessionUser,userId);
+
+        User detachMember = userService.deleteMembership(sessionUser, userId);
+
+        loginService.logout();
+        loginService.login(new SessionUser(detachMember));
+
+        return ResponseEntity.ok(UserResponseDto.of(detachMember));
+    }
+
 }

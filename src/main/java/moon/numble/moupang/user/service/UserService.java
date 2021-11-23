@@ -12,6 +12,7 @@ import moon.numble.moupang.user.exception.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Member;
 import java.util.Optional;
 
 @Service
@@ -149,5 +150,21 @@ public class UserService {
         User joinMember = user.joinMember();
 
         return joinMember;
+    }
+
+    public User deleteMembership(SessionUser sessionUser, Long userId) {
+        User user = getUserToSessionUser(sessionUser);
+
+        Optional<Membership> membership = membershipRepository.findByUser(user);
+
+        if(membership.isEmpty()){
+            throw new MembershipNotFoundException(user.getEmail());
+        }
+
+        membershipRepository.delete(membership.get());
+
+        User detachMember = user.detachMember();
+
+        return detachMember;
     }
 }

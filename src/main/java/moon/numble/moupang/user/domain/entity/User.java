@@ -71,4 +71,9 @@ public class User extends BaseTimeEntity {
         this.membership=IsMembership.MEMBERSHIP;
         return this;
     }
+
+    public User detachMember(){
+        this.membership=IsMembership.NON_MEMBERSHIP;
+        return this;
+    }
 }
