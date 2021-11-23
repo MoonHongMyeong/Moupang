@@ -132,4 +132,18 @@ public class UserApiController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @LoginRequired
+    @PostMapping("/user/{userId}/membership")
+    public ResponseEntity<UserResponseDto> joinMembership(@LoginUser SessionUser sessionUser,
+                                                          @PathVariable("userId") Long userId){
+        userService.verifyUser(sessionUser, userId);
+
+        User joinMember = userService.createMembership(sessionUser, userId);
+
+        loginService.logout();
+        loginService.login(new SessionUser(joinMember));
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(UserResponseDto.of(joinMember));
+    }
+
 }

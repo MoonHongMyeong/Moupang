@@ -1,8 +1,11 @@
 package moon.numble.moupang.user.service;
 
+import javassist.bytecode.DuplicateMemberException;
 import lombok.RequiredArgsConstructor;
 import moon.numble.moupang.common.SessionUser;
+import moon.numble.moupang.user.domain.entity.Membership;
 import moon.numble.moupang.user.domain.entity.User;
+import moon.numble.moupang.user.domain.repository.MembershipRepository;
 import moon.numble.moupang.user.domain.repository.UserRepository;
 import moon.numble.moupang.user.dto.*;
 import moon.numble.moupang.user.exception.*;
@@ -15,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final MembershipRepository membershipRepository;
     private final PasswordEncoder passwordEncoder;
 
     public UserResponseDto registerUser(UserSaveRequestDto saveRequestDto) {
@@ -128,5 +132,22 @@ public class UserService {
         User user = getUserToSessionUser(sessionUser);
 
         userRepository.delete(user);
+    }
+
+    public User createMembership(SessionUser sessionUser, Long userId) {
+
+        User user = getUserToSessionUser(sessionUser);
+
+        Optional<Membership> membership = membershipRepository.findByUser(user);
+
+        if(membership.isPresent()){
+            throw new AlreadyMembershipUserException(user.getEmail());
+        }
+
+        membershipRepository.save(Membership.builder().user(user).build());
+
+        User joinMember = user.joinMember();
+
+        return joinMember;
     }
 }

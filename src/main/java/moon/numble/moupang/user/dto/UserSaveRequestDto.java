@@ -3,6 +3,7 @@ package moon.numble.moupang.user.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import moon.numble.moupang.user.domain.entity.IsMembership;
 import moon.numble.moupang.user.domain.entity.Role;
 import moon.numble.moupang.user.domain.entity.User;
 
@@ -30,6 +31,7 @@ public class UserSaveRequestDto {
     @NotBlank
     private String phone;
     private Role role = Role.CUSTOMER;
+    private IsMembership membership = IsMembership.NON_MEMBERSHIP;
 
     @Builder
     public UserSaveRequestDto(String email, String password, String name, String phone){
@@ -50,6 +52,7 @@ public class UserSaveRequestDto {
                 .name(name)
                 .phone(phone)
                 .role(role)
+                .membership(membership)
                 .build();
     }
 }
