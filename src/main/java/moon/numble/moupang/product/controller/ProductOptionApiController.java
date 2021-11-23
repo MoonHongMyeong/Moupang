@@ -61,10 +61,10 @@ public class ProductOptionApiController {
         return ResponseEntity.ok(response);
     }
 
-//    @DeleteMapping("/products/{productId}/cOptions/{optionId}")
-//    public ResponseEntity<HttpStatus> deleteClothesOption(@PathVariable("optionId") Long optionId){
-//        productOptionService.deleteClothesOption(optionId);
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).build();
-//    }
+    @DeleteMapping("/products/{productId}/cOptions/{optionId}")
+    public ResponseEntity<HttpStatus> deleteClothesOption(@PathVariable("optionId") Long optionId){
+        productOptionService.deleteClothesOption(optionId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 }

@@ -89,10 +89,10 @@ public class ProductOptionService {
 
         return option.get();
     }
-//
-//    public void deleteClothesOption(Long optionId) {
-//        ClothesOption option = getClothesOptionById(optionId);
-//
-//        clothesOptionRepository.delete(option);
-//    }
+
+    public void deleteClothesOption(Long optionId) {
+        ClothesOption option = getClothesOptionById(optionId);
+
+        clothesOptionRepository.delete(option);
+    }
 }
