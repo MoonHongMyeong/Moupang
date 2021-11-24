@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moon.numble.moupang.cart.dto.CartResponseDto;
 import moon.numble.moupang.cart.dto.CartSaveRequestDto;
+import moon.numble.moupang.cart.dto.CartUpdateRequestDto;
 import moon.numble.moupang.cart.service.CartService;
 import moon.numble.moupang.common.SessionUser;
 import moon.numble.moupang.common.annotation.LoginUser;
@@ -36,5 +37,19 @@ public class CartApiController {
         CartResponseDto response = cartService.createCartItem(dto, user, productId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @LoginRequired
+    @PutMapping("/products/{productId}/carts/{cartId}")
+    public ResponseEntity<CartResponseDto> updateCartItem(@RequestBody @Valid CartUpdateRequestDto dto,
+                                                          @LoginUser SessionUser sessionUser,
+                                                          @PathVariable("productId") Long productId,
+                                                          @PathVariable("cartId") Long cartId){
+
+        User user = userService.getUserToSessionUser(sessionUser);
+
+        CartResponseDto response = cartService.updateCartItem(dto, cartId);
+
+        return ResponseEntity.ok(response);
     }
 }

@@ -5,6 +5,8 @@ import moon.numble.moupang.cart.domain.entity.Cart;
 import moon.numble.moupang.cart.domain.repository.CartRepository;
 import moon.numble.moupang.cart.dto.CartResponseDto;
 import moon.numble.moupang.cart.dto.CartSaveRequestDto;
+import moon.numble.moupang.cart.dto.CartUpdateRequestDto;
+import moon.numble.moupang.cart.exception.CartNotFoundException;
 import moon.numble.moupang.product.domain.entity.Product;
 import moon.numble.moupang.product.domain.repository.ProductRepository;
 import moon.numble.moupang.product.exception.ProductNotFoundException;
@@ -45,5 +47,20 @@ public class CartService {
             return CartResponseDto.of(duplicateCartItem);
 
         }
+    }
+
+
+    public CartResponseDto updateCartItem(CartUpdateRequestDto dto, Long cartId) {
+
+        Optional<Cart> cart = cartRepository.findById(cartId);
+
+        if(cart.isEmpty()){
+            throw new CartNotFoundException(cartId.toString());
+        }
+
+        Cart updateCart = cart.get();
+        updateCart.updateQuantity(dto.getQuantity());
+
+        return CartResponseDto.of(updateCart);
     }
 }
