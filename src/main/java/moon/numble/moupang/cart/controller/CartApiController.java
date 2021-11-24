@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import moon.numble.moupang.cart.dto.CartResponseDto;
 import moon.numble.moupang.cart.dto.CartSaveRequestDto;
 import moon.numble.moupang.cart.dto.CartUpdateRequestDto;
-import moon.numble.moupang.cart.service.CartService;
+import moon.numble.moupang.cart.service.CartServiceImpl;
 import moon.numble.moupang.common.SessionUser;
 import moon.numble.moupang.common.annotation.LoginUser;
 import moon.numble.moupang.user.annotation.LoginRequired;
@@ -25,7 +25,7 @@ import java.util.List;
 public class CartApiController {
 
     private final UserService userService;
-    private final CartService cartService;
+    private final CartServiceImpl cartService;
 
     @LoginRequired
     @PostMapping("/products/{productId}/carts")

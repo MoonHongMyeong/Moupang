@@ -2,7 +2,9 @@ package moon.numble.moupang.order.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import moon.numble.moupang.cart.domain.entity.Cart;
 import moon.numble.moupang.cart.dto.CartSaveRequestDto;
+import moon.numble.moupang.cart.service.CartService;
 import moon.numble.moupang.common.SessionUser;
 import moon.numble.moupang.common.annotation.LoginUser;
 import moon.numble.moupang.order.dto.OrderListResponseDto;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class OrderApiController {
 
+    private final CartService cartService;
     private final OrderService orderService;
     private final UserService userService;
 
@@ -41,16 +45,20 @@ public class OrderApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-//    @LoginRequired
-//    @PostMapping("/user/{userId}/carts")
-//    public ResponseEntity<OrderListResponseDto> purchaseFromCart(@RequestBody @Valid List<OrderListSaveRequestDto> dtos,
-//                                                                   @LoginUser SessionUser sessionUser,
-//                                                                   @PathVariable("userId") Long userId){
-//
-//        User user = userService.getUserToSessionUser(sessionUser);
-//
-//        OrderListResponseDto responses = orderService.purchaseFromCart(dtos, user);
-//
-//        return ResponseEntity.ok(responses);
-//    }
+    @LoginRequired
+    @PostMapping("/user/{userId}/carts")
+    public ResponseEntity<OrderListResponseDto> purchaseFromCart(@RequestBody @Valid List<OrderListSaveRequestDto> dtos,
+                                                                   @LoginUser SessionUser sessionUser,
+                                                                   @PathVariable("userId") Long userId){
+
+        List<Cart> carts = dtos.stream()
+                .map(dto -> cartService.getCartById(dto.getCartId()))
+                .collect(Collectors.toList());
+
+        User user = userService.getUserToSessionUser(sessionUser);
+
+        OrderListResponseDto responses = orderService.purchaseFromCart(carts, user);
+
+        return ResponseEntity.ok(responses);
+    }
 }
