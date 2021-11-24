@@ -25,7 +25,9 @@ public enum ErrorCode {
     UNAUTHORIZED_ACCESS(401, "Unauthorized Access", "승인되지 않음."),
     INVALID_USER_ACCESS(401, "Invalid User Access", "잘못된 사용자 접근입니다."),
     //product
-    PRODUCT_NOT_FOUND(404, "Product is Not Found", "제품을 찾을 수 없습니다.")
+    PRODUCT_NOT_FOUND(400, "Product is Not Found", "해당 제품을 찾을 수 없습니다."),
+    //CART
+    CART_NOT_FOUND(400, "Cart is Not Found", "해당 카트를 찾을 수 없습니다.")
     ;
 
     private final int status;
