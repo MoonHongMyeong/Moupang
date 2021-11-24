@@ -11,14 +11,20 @@ import moon.numble.moupang.product.domain.entity.Product;
 import moon.numble.moupang.product.domain.repository.ProductRepository;
 import moon.numble.moupang.product.exception.ProductNotFoundException;
 import moon.numble.moupang.user.domain.entity.User;
+import moon.numble.moupang.user.domain.repository.UserRepository;
+import moon.numble.moupang.user.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
 
+    private final UserRepository userRepository;
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
 
@@ -74,5 +80,19 @@ public class CartService {
         Cart cart = getCartById(cartId);
 
         cartRepository.delete(cart);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CartResponseDto> getCartItems(Long userId) {
+        
+        Optional<User> user = userRepository.findById(userId);
+
+        if(user.isEmpty()){
+            throw new UserNotFoundException(userId.toString());
+        }
+
+        return cartRepository.getCartItems(user.get()).stream()
+                .map(cartItem -> CartResponseDto.of(cartItem))
+                .collect(Collectors.toList());
     }
 }

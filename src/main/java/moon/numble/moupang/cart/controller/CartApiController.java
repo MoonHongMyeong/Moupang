@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -60,5 +61,15 @@ public class CartApiController {
         cartService.deleteCartItem(cartId);
 
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @LoginRequired
+    @GetMapping("/user/{userId}/carts")
+    public ResponseEntity<List<CartResponseDto>> getCartItems(@LoginUser SessionUser sessionUser,
+                                                              @PathVariable("userId") Long userId){
+
+        List<CartResponseDto> cartItems = cartService.getCartItems(userId);
+
+        return ResponseEntity.ok(cartItems);
     }
 }
