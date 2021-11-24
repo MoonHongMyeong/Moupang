@@ -35,4 +35,12 @@ public class CartSaveRequestDto {
                 .build();
     }
 
+    public Cart toEntity(User user, Product product, CartStatus directPurchase) {
+        return Cart.builder()
+                .product(product)
+                .user(user)
+                .status(directPurchase)
+                .quantity(this.quantity)
+                .build();
+    }
 }

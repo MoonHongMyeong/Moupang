@@ -10,14 +10,14 @@ import moon.numble.moupang.product.domain.entity.Product;
 @Getter
 @NoArgsConstructor
 public class CartResponseDto {
-    private Long id;
+    private Long cartId;
     private Product product;
     private CartStatus status;
     private int quantity;
 
     @Builder
     public CartResponseDto(Long id, Product product, CartStatus status, int quantity) {
-        this.id = id;
+        this.cartId = id;
         this.product = product;
         this.status = status;
         this.quantity = quantity;
