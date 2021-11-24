@@ -49,8 +49,16 @@ public class CartService {
         }
     }
 
-
     public CartResponseDto updateCartItem(CartUpdateRequestDto dto, Long cartId) {
+
+        Cart cart = getCartById(cartId);
+
+        cart.updateQuantity(dto.getQuantity());
+
+        return CartResponseDto.of(cart);
+    }
+
+    private Cart getCartById(Long cartId) {
 
         Optional<Cart> cart = cartRepository.findById(cartId);
 
@@ -58,9 +66,13 @@ public class CartService {
             throw new CartNotFoundException(cartId.toString());
         }
 
-        Cart updateCart = cart.get();
-        updateCart.updateQuantity(dto.getQuantity());
+        return cart.get();
+    }
 
-        return CartResponseDto.of(updateCart);
+    public void deleteCartItem(Long cartId) {
+
+        Cart cart = getCartById(cartId);
+
+        cartRepository.delete(cart);
     }
 }

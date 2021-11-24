@@ -52,4 +52,13 @@ public class CartApiController {
 
         return ResponseEntity.ok(response);
     }
+
+    @LoginRequired
+    @DeleteMapping("/products/{productId}/carts/{cartId}")
+    public ResponseEntity<HttpStatus> deleteCartItem(@LoginUser SessionUser user,
+                                                     @PathVariable("cartId") Long cartId){
+        cartService.deleteCartItem(cartId);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
