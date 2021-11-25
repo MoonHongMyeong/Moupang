@@ -11,6 +11,7 @@ import moon.numble.moupang.payment.domain.repository.PaymentRepository;
 import moon.numble.moupang.payment.dto.PaymentResponseDto;
 import moon.numble.moupang.user.domain.entity.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ public class PaymentService {
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
 
+    @Transactional(rollbackFor = Exception.class)
     public PaymentResponseDto pay(Long orderId, User user, String paymentType) {
 
         Optional<ProductOrder> order = orderRepository.findById(orderId);

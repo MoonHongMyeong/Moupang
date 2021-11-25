@@ -10,6 +10,7 @@ import moon.numble.moupang.product.domain.repository.ProductOptionRepository;
 import moon.numble.moupang.product.domain.repository.ProductRepository;
 import moon.numble.moupang.product.dto.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ public class ProductOptionService {
     private final ProductOptionRepository productOptionRepository;
     private final ClothesOptionRepository clothesOptionRepository;
 
+    @Transactional(rollbackFor = Exception.class)
     public ProductOptionResponseDto create(ProductOptionSaveRequestDto dto, Long productId) {
 
         Product product = getProductById(productId);
@@ -66,6 +68,7 @@ public class ProductOptionService {
         productOptionRepository.delete(productOption);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public ClothesOptionResponseDto create(ClothesOptionSaveRequestDto dto, Long productId){
         Product product = getProductById(productId);
 
@@ -76,6 +79,7 @@ public class ProductOptionService {
         return ClothesOptionResponseDto.of(option);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public ClothesOptionResponseDto update(ClothesOptionUpdateRequestDto dto, Long optionId){
         ClothesOption option = getClothesOptionById(optionId);
 

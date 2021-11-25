@@ -12,8 +12,8 @@ import moon.numble.moupang.product.dto.ProductSaveRequestDto;
 import moon.numble.moupang.product.dto.ProductUpdateRequestDto;
 import moon.numble.moupang.product.exception.ProductNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,6 +25,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
 
+    @Transactional(readOnly = true)
     public List<ProductListResponseDto> getAllProducts() {
         return productRepository.getAll().stream()
                 .map(product -> ProductListResponseDto.of(product))
@@ -45,7 +46,7 @@ public class ProductService {
         return ProductResponseDto.of(product);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ProductResponseDto update(Long productsId, ProductUpdateRequestDto dto) {
 
         Category category = getCategoryById(dto.getType());
@@ -76,7 +77,7 @@ public class ProductService {
 
         return product;
     }
-
+    @Transactional(rollbackFor = Exception.class)
     public void delete(Long productsId) {
 
         Product product = getProductById(productsId);

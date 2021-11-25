@@ -6,6 +6,7 @@ import moon.numble.moupang.product.domain.repository.ProductSearchCustomReposito
 import moon.numble.moupang.product.dto.ProductListResponseDto;
 import moon.numble.moupang.product.dto.SearchProductCondition;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ public class ProductSearchService {
 
     private final ProductRepository productSearchCustomRepository;
 
+    @Transactional(readOnly = true)
     public List<ProductListResponseDto> search(SearchProductCondition dto) {
         return productSearchCustomRepository.search(dto).stream()
                 .map(product -> ProductListResponseDto.of(product))

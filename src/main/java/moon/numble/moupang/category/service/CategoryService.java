@@ -7,6 +7,7 @@ import moon.numble.moupang.category.dto.CategoryResponseDto;
 import moon.numble.moupang.category.dto.CategorySaveRequestDto;
 import moon.numble.moupang.category.dto.CategoryUpdateRequestDto;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +18,7 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
+    @Transactional(readOnly = true)
     public List<CategoryResponseDto> getCategories(){
 
         return categoryRepository.findAll().stream()

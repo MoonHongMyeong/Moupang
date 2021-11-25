@@ -10,6 +10,7 @@ import moon.numble.moupang.address.dto.ShippingAddressSaveRequestDto;
 import moon.numble.moupang.address.dto.ShippingAddressUpdateRequestDto;
 import moon.numble.moupang.user.domain.entity.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class ShippingAddressService {
     private final ShippingAddressRepository addressRepository;
 
+    @Transactional(readOnly = true)
     public List<ShippingAddressResponseDto> getAddresses(User user) {
         return addressRepository.findAllUserAddress(user)
                 .stream()
