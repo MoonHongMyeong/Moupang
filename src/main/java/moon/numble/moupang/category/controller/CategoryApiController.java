@@ -1,6 +1,7 @@
 package moon.numble.moupang.category.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import moon.numble.moupang.category.dto.CategoryResponseDto;
 import moon.numble.moupang.category.dto.CategorySaveRequestDto;
 import moon.numble.moupang.category.dto.CategoryUpdateRequestDto;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api/v1")
 public class CategoryApiController {
     private final CategoryService categoryService;

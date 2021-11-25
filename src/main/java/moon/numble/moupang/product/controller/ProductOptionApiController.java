@@ -1,8 +1,7 @@
 package moon.numble.moupang.product.controller;
 
 import lombok.RequiredArgsConstructor;
-import moon.numble.moupang.product.domain.entity.ClothesOption;
-import moon.numble.moupang.product.domain.repository.ClothesOptionRepository;
+import lombok.extern.slf4j.Slf4j;
 import moon.numble.moupang.product.dto.*;
 import moon.numble.moupang.product.service.ProductOptionService;
 import org.springframework.http.HttpStatus;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
+@Slf4j
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class ProductOptionApiController {
