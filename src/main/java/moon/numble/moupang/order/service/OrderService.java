@@ -14,7 +14,11 @@ import moon.numble.moupang.order.domain.repository.OrderRepository;
 import moon.numble.moupang.order.dto.OrderListResponseDto;
 import moon.numble.moupang.order.dto.OrderResponseDto;
 import moon.numble.moupang.order.dto.OrderListSaveRequestDto;
+import moon.numble.moupang.product.domain.entity.ClothesOption;
 import moon.numble.moupang.product.domain.entity.Product;
+import moon.numble.moupang.product.domain.entity.ProductOption;
+import moon.numble.moupang.product.domain.repository.ClothesOptionRepository;
+import moon.numble.moupang.product.domain.repository.ProductOptionRepository;
 import moon.numble.moupang.product.domain.repository.ProductRepository;
 import moon.numble.moupang.product.exception.ProductNotFoundException;
 import moon.numble.moupang.user.domain.entity.User;
@@ -34,6 +38,8 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
+    private final ProductOptionRepository productOptionRepository;
+    private final ClothesOptionRepository clothesOptionRepository;
 
     @Transactional(rollbackFor = Exception.class)
     public OrderResponseDto directlyPurchase(CartSaveRequestDto dto, User user, Long productId) {
@@ -44,7 +50,10 @@ public class OrderService {
             throw new ProductNotFoundException(productId.toString());
         }
 
-        Cart newCart = cartRepository.save(dto.toEntity(user, product.get(), CartStatus.DIRECT_PURCHASE));
+        ProductOption option = productOptionRepository.getById(dto.getProductOptionId());
+        ClothesOption clothesOption = clothesOptionRepository.getById(dto.getClothesOptionId());
+
+        Cart newCart = cartRepository.save(dto.toEntity(user, product.get(), CartStatus.DIRECT_PURCHASE, option, clothesOption));
 
         ProductOrder order = createOrder(user);
         double shippingFee = calculateShippingFee(newCart);
@@ -103,7 +112,6 @@ public class OrderService {
         double totalPrice = details.stream().mapToDouble(detail -> (detail.getCalculatePrice() + detail.getShippingFee())).sum();
         order.orderComplete(totalPrice);
         order.inputDetail(details);
-        
         return OrderListResponseDto.of(order);
 
     }

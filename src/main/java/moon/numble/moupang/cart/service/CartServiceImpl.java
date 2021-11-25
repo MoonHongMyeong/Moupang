@@ -7,7 +7,12 @@ import moon.numble.moupang.cart.dto.CartResponseDto;
 import moon.numble.moupang.cart.dto.CartSaveRequestDto;
 import moon.numble.moupang.cart.dto.CartUpdateRequestDto;
 import moon.numble.moupang.cart.exception.CartNotFoundException;
+import moon.numble.moupang.common.exception.EntityNotFoundException;
+import moon.numble.moupang.product.domain.entity.ClothesOption;
 import moon.numble.moupang.product.domain.entity.Product;
+import moon.numble.moupang.product.domain.entity.ProductOption;
+import moon.numble.moupang.product.domain.repository.ClothesOptionRepository;
+import moon.numble.moupang.product.domain.repository.ProductOptionRepository;
 import moon.numble.moupang.product.domain.repository.ProductRepository;
 import moon.numble.moupang.product.exception.ProductNotFoundException;
 import moon.numble.moupang.user.domain.entity.User;
@@ -27,6 +32,8 @@ public class CartServiceImpl implements CartService{
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
+    private final ProductOptionRepository productOptionRepository;
+    private final ClothesOptionRepository clothesOptionRepository;
 
     public CartResponseDto createCartItem(CartSaveRequestDto dto, User user, Long productId) {
 
@@ -36,23 +43,18 @@ public class CartServiceImpl implements CartService{
             throw new ProductNotFoundException(productId.toString());
         }
 
-        Optional<Cart> duplicateProduct = cartRepository.findByProduct(product.get());
+        Optional<ProductOption> option = productOptionRepository.findById(dto.getProductOptionId());
 
-        if(duplicateProduct.isEmpty()){
-
-            Cart cartItem = cartRepository.save(dto.toEntity(user, product.get()));
-
-            return CartResponseDto.of(cartItem);
-
-        }else{
-
-            Cart duplicateCartItem = cartRepository.getById(duplicateProduct.get().getId());
-
-            duplicateCartItem.updateQuantity(dto.getQuantity());
-
-            return CartResponseDto.of(duplicateCartItem);
-
+        if(option.isEmpty()){
+            throw new EntityNotFoundException(dto.getProductOptionId().toString());
         }
+
+        ClothesOption clothesOption = clothesOptionRepository.getById(dto.getProductOptionId());
+
+        Cart cartItem = cartRepository.save(dto.toEntity(user, product.get(), option.get(), clothesOption));
+
+        return CartResponseDto.of(cartItem);
+
     }
 
     public CartResponseDto updateCartItem(CartUpdateRequestDto dto, Long cartId) {
