@@ -1,6 +1,7 @@
 package moon.numble.moupang.product.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import moon.numble.moupang.product.dto.*;
 import moon.numble.moupang.product.service.ProductSearchService;
 import moon.numble.moupang.product.service.ProductService;
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@Slf4j
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class ProductApiController {
@@ -48,6 +50,12 @@ public class ProductApiController {
 
         List<ProductListResponseDto> response = productService.getAllProducts();
 
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/products/{productId}")
+    public ResponseEntity<ProductResponseDto> productDetail(@PathVariable("productId") Long productId){
+        ProductResponseDto response = productService.getProductDetail(productId);
         return ResponseEntity.ok(response);
     }
 

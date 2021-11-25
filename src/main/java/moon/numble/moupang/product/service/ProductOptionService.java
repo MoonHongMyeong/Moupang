@@ -27,6 +27,8 @@ public class ProductOptionService {
 
         ProductOption productOption = productOptionRepository.save(dto.toEntity(product));
 
+        product.addProductOption(productOption);
+
         return ProductOptionResponseDto.of(productOption);
     }
 
@@ -68,6 +70,8 @@ public class ProductOptionService {
         Product product = getProductById(productId);
 
         ClothesOption option = clothesOptionRepository.save(dto.toEntity(product));
+
+        product.addClothesOption(option);
 
         return ClothesOptionResponseDto.of(option);
     }

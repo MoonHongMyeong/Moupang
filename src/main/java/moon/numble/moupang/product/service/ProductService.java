@@ -31,6 +31,11 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    public ProductResponseDto getProductDetail(Long productId) {
+        Product product = getProductById(productId);
+        return ProductResponseDto.of(product);
+    }
+
     public ProductResponseDto create(ProductSaveRequestDto dto) {
 
         Category category = getCategoryById(dto.getType());
@@ -63,13 +68,13 @@ public class ProductService {
     }
 
     private Product getProductById(Long productsId) {
-        Optional<Product> product = productRepository.findById(productsId);
+        Product product = productRepository.findProduct(productsId);
 
-        if(product.isEmpty()){
+        if(product == null){
             throw new ProductNotFoundException(productsId.toString());
         }
 
-        return product.get();
+        return product;
     }
 
     public void delete(Long productsId) {
