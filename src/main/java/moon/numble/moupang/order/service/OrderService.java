@@ -5,15 +5,14 @@ import moon.numble.moupang.cart.domain.entity.Cart;
 import moon.numble.moupang.cart.domain.entity.CartStatus;
 import moon.numble.moupang.cart.domain.repository.CartRepository;
 import moon.numble.moupang.cart.dto.CartSaveRequestDto;
-import moon.numble.moupang.cart.service.CartService;
-import moon.numble.moupang.order.domain.entity.ProductOrder;
 import moon.numble.moupang.order.domain.entity.OrderDetail;
 import moon.numble.moupang.order.domain.entity.OrderStep;
+import moon.numble.moupang.order.domain.entity.ProductOrder;
 import moon.numble.moupang.order.domain.repository.OrderDetailRepository;
 import moon.numble.moupang.order.domain.repository.OrderRepository;
 import moon.numble.moupang.order.dto.OrderListResponseDto;
 import moon.numble.moupang.order.dto.OrderResponseDto;
-import moon.numble.moupang.order.dto.OrderListSaveRequestDto;
+import moon.numble.moupang.order.exception.OrderNotFoundException;
 import moon.numble.moupang.product.domain.entity.ClothesOption;
 import moon.numble.moupang.product.domain.entity.Product;
 import moon.numble.moupang.product.domain.entity.ProductOption;
@@ -22,6 +21,7 @@ import moon.numble.moupang.product.domain.repository.ProductOptionRepository;
 import moon.numble.moupang.product.domain.repository.ProductRepository;
 import moon.numble.moupang.product.exception.ProductNotFoundException;
 import moon.numble.moupang.user.domain.entity.User;
+import moon.numble.moupang.user.domain.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -121,13 +121,24 @@ public class OrderService {
         double price = 0;
 
         if(cart.getProduct().getDiscountPrice() != 0){
-            price = (cart.getProduct().getPrice() - cart.getProduct().getDiscountPrice()) * cart.getQuantity();
+            price = (cart.getOption().getPrice() - cart.getProduct().getDiscountPrice()) * cart.getQuantity();
         }
 
         if(cart.getProduct().getDiscountRate() != 0.0){
-            price = cart.getProduct().getPrice() * cart.getQuantity() * (100.0-cart.getProduct().getDiscountRate()) / 100;
+            price = cart.getOption().getPrice() * cart.getQuantity() * (100.0-cart.getProduct().getDiscountRate()) / 100;
         }
 
         return price;
+    }
+
+    public void cancelOrder(Long userId, Long orderId) {
+
+        Optional<ProductOrder> order = orderRepository.findById(orderId);
+
+        if(order.isEmpty()){
+            throw new OrderNotFoundException(orderId.toString());
+        }
+
+        order.get().orderCancel();
     }
 }

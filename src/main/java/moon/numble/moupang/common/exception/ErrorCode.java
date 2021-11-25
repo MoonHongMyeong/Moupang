@@ -29,7 +29,9 @@ public enum ErrorCode {
     PRODUCT_SOLD_OUT(400, "Product is sold out", "품절 된 제품입니다."),
     QUANTITY_MUCH_STOCK(400, "Order quantity much stock", "남은 수량보다 많은 제품을 주문했습니다."),
     //CART
-    CART_NOT_FOUND(400, "Cart is Not Found", "해당 카트를 찾을 수 없습니다.")
+    CART_NOT_FOUND(400, "Cart is Not Found", "해당 카트를 찾을 수 없습니다."),
+    //ORDER
+    ORDER_NOT_FOUND(400, "Order not found", "주문을 찾을 수 없습니다.")
     ;
 
     private final int status;

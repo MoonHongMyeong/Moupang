@@ -61,4 +61,14 @@ public class OrderApiController {
 
         return ResponseEntity.ok(responses);
     }
+
+    @DeleteMapping("/user/{userId}/orders/{orderId}")
+    public ResponseEntity<HttpStatus> cancelOrder(@PathVariable("userId") Long userId,
+                                                  @PathVariable("orderId") Long orderId){
+
+        orderService.cancelOrder(userId, orderId);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 }
