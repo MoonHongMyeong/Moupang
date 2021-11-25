@@ -4,10 +4,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import moon.numble.moupang.category.domain.entity.Category;
-import moon.numble.moupang.product.domain.entity.Company;
-import moon.numble.moupang.product.domain.entity.Goldbox;
-import moon.numble.moupang.product.domain.entity.Product;
-import moon.numble.moupang.product.domain.entity.RocketShipping;
+import moon.numble.moupang.product.domain.entity.*;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -30,8 +29,12 @@ public class ProductResponseDto {
 
     private String detailUrl;
 
+    private List<ProductOption> options;
+
+    private ClothesOption clothes_option;
+
     @Builder
-    public ProductResponseDto(Long id, Category type, String title, Company company, double price, Goldbox isGoldBox, RocketShipping isRocketShipping, String thumbnailUrl, String detailUrl) {
+    public ProductResponseDto(Long id, Category type, String title, Company company, double price, Goldbox isGoldBox, RocketShipping isRocketShipping, String thumbnailUrl, String detailUrl, List<ProductOption> options, ClothesOption clothes_option) {
         this.id = id;
         this.type = type;
         this.title = title;
@@ -41,6 +44,8 @@ public class ProductResponseDto {
         this.isRocketShipping = isRocketShipping;
         this.thumbnailUrl = thumbnailUrl;
         this.detailUrl = detailUrl;
+        this.options = options;
+        this.clothes_option = clothes_option;
     }
 
     public static ProductResponseDto of(Product product){
@@ -54,6 +59,8 @@ public class ProductResponseDto {
                 .isRocketShipping(product.getIsRocketShipping())
                 .thumbnailUrl(product.getThumbnailUrl())
                 .detailUrl(product.getDetailUrl())
+                .options(product.getProductOptions())
+                .clothes_option(product.getClothesOption())
                 .build();
     }
 }

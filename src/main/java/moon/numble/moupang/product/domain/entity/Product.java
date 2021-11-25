@@ -1,13 +1,17 @@
 package moon.numble.moupang.product.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import moon.numble.moupang.category.domain.entity.Category;
 import moon.numble.moupang.common.BaseTimeEntity;
 import moon.numble.moupang.product.dto.ProductUpdateRequestDto;
+import moon.numble.moupang.product.exception.OrderQuantityMuchStockException;
+import moon.numble.moupang.product.exception.ProductSoldOutException;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -44,9 +48,11 @@ public class Product extends BaseTimeEntity {
     @Column
     private double discountPrice;
 
+    @Enumerated(EnumType.STRING)
     @Column
     private Goldbox isGoldBox;
 
+    @Enumerated(EnumType.STRING)
     @Column
     private RocketShipping isRocketShipping;
 
@@ -59,14 +65,14 @@ public class Product extends BaseTimeEntity {
     @Column
     private Integer isDeleted;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<ProductOption> productOptions;
+    @OneToMany(targetEntity = ProductOption.class, mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ProductOption> productOptions = new ArrayList<>();
 
     @OneToOne
     private ClothesOption clothesOption;
 
     @Builder
-    public Product(Category type, String title, Company company, int stock, int salesVolume, double price, int discountRate, double discountPrice, Goldbox isGoldBox, RocketShipping isRocketShipping, String thumbnailUrl, String detailUrl, Integer isDeleted) {
+    public Product(Category type, String title, Company company, int stock, int salesVolume, double price, int discountRate, double discountPrice, Goldbox isGoldBox, RocketShipping isRocketShipping, String thumbnailUrl, String detailUrl, Integer isDeleted, ProductOption productOption, ClothesOption clothesOption) {
         this.type = type;
         this.title = title;
         this.company = company;
@@ -80,6 +86,8 @@ public class Product extends BaseTimeEntity {
         this.thumbnailUrl = thumbnailUrl;
         this.detailUrl = detailUrl;
         this.isDeleted = 0;
+        this.productOptions.add(productOption);
+        this.clothesOption=clothesOption;
     }
 
     public Product updateProduct(ProductUpdateRequestDto dto) {
@@ -102,10 +110,19 @@ public class Product extends BaseTimeEntity {
         this.type=category;
     }
 
-    public Product purchaseProduct(){
+    public Product purchaseProduct(int quantity){
+
+        if(this.stock == 0){
+            throw new ProductSoldOutException(this.title);
+        }
+
+        if(this.stock - quantity < 0){
+            throw new OrderQuantityMuchStockException(this.title);
+        }
+
         return Product.builder()
-                .stock(this.stock-1)
-                .salesVolume(this.salesVolume+1)
+                .stock(this.stock-quantity)
+                .salesVolume(this.salesVolume+quantity)
                 .build();
     }
 
@@ -113,6 +130,14 @@ public class Product extends BaseTimeEntity {
         return Product.builder()
                 .isDeleted(1)
                 .build();
+    }
+
+    public void addClothesOption(ClothesOption option){
+        this.clothesOption = option;
+    }
+
+    public void addProductOption(ProductOption option){
+        this.productOptions.add(option);
     }
 
 }

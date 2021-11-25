@@ -60,7 +60,7 @@ public class ProductSearchCustomRepositoryImpl extends QuerydslRepositorySupport
             builder.and(product.isRocketShipping.eq(RocketShipping.ROCKET_SHIPPING));
         }
 
-        return from(product)
+        return queryFactory.selectFrom(product)
                 .where(builder)
                 .join(product.type, category)
                 .orderBy(sort(condition.getSort()))

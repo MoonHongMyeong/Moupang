@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import moon.numble.moupang.cart.domain.entity.Cart;
 import moon.numble.moupang.common.BaseTimeEntity;
 import moon.numble.moupang.product.dto.ProductOptionUpdateRequestDto;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -28,6 +30,11 @@ public class ProductOption extends BaseTimeEntity {
 
     @Column
     private Double price;
+
+    @JsonIgnore
+    @OneToMany
+    @JoinColumn(name = "cart_id", nullable = false, insertable = false, updatable = false)
+    private List<Cart> cart;
 
     @Builder
     public ProductOption(Product product, String title, Double price) {
