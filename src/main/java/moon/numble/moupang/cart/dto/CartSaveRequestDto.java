@@ -24,7 +24,7 @@ public class CartSaveRequestDto {
     private int quantity;
     @NotNull
     private Long productOptionId;
-    @Nullable
+    @NotNull
     private Long clothesOptionId;
 
     @Builder

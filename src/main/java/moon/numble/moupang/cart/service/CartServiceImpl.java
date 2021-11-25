@@ -49,7 +49,7 @@ public class CartServiceImpl implements CartService{
             throw new EntityNotFoundException(dto.getProductOptionId().toString());
         }
 
-        ClothesOption clothesOption = clothesOptionRepository.getById(dto.getProductOptionId());
+        ClothesOption clothesOption = clothesOptionRepository.getById(dto.getClothesOptionId());
 
         Cart cartItem = cartRepository.save(dto.toEntity(user, product.get(), option.get(), clothesOption));
 
