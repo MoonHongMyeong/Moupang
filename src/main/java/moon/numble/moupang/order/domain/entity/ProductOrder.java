@@ -51,6 +51,10 @@ public class ProductOrder extends BaseTimeEntity {
         this.orderStep=OrderStep.ORDER;
     }
 
+    public void paymentComplete(){
+        this.orderStep=OrderStep.COMPLETE;
+    }
+
     public void inputDetail(List<OrderDetail> details){
         this.orderDetails = details;
     }
