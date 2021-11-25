@@ -10,7 +10,6 @@ import moon.numble.moupang.product.domain.entity.Product;
 import moon.numble.moupang.product.domain.entity.ProductOption;
 import moon.numble.moupang.user.domain.entity.User;
 
-import javax.annotation.Nullable;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 

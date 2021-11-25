@@ -26,15 +26,18 @@ public class ProductOrder extends BaseTimeEntity {
 
     private double totalPrice;
 
+    private double totalFee;
+
     private OrderStep orderStep;
 
     @OneToMany(targetEntity = OrderDetail.class, mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails;
 
     @Builder
-    public ProductOrder(User user, double totalPrice, OrderStep orderStep) {
+    public ProductOrder(User user, double totalPrice, double shippingFee, OrderStep orderStep) {
         this.user = user;
         this.totalPrice = totalPrice;
+        this.totalFee  = shippingFee;
         this.orderStep = orderStep;
     }
 
@@ -42,8 +45,9 @@ public class ProductOrder extends BaseTimeEntity {
         this.orderStep = OrderStep.CANCEL;
     }
 
-    public void orderComplete(double totalPrice){
+    public void orderComplete(double totalPrice, double totalFee){
         this.totalPrice=totalPrice;
+        this.totalFee=totalFee;
         this.orderStep=OrderStep.ORDER;
     }
 

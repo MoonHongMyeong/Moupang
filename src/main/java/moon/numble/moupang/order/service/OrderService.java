@@ -68,7 +68,7 @@ public class OrderService {
 
         product.get().purchaseProduct(orderDetail.getQuantity());
 
-        order.orderComplete(orderDetail.getCalculatePrice() + orderDetail.getShippingFee());
+        order.orderComplete(orderDetail.getCalculatePrice(),orderDetail.getShippingFee());
 
         List<OrderDetail> details = new ArrayList<>();
         details.add(orderDetail);
@@ -109,8 +109,9 @@ public class OrderService {
                         .build()))
                 .collect(Collectors.toList());
 
-        double totalPrice = details.stream().mapToDouble(detail -> (detail.getCalculatePrice() + detail.getShippingFee())).sum();
-        order.orderComplete(totalPrice);
+        double totalPrice = details.stream().mapToDouble(detail -> detail.getCalculatePrice()).sum();
+        double totalFee = details.stream().mapToDouble(detail -> detail.getShippingFee()).sum();
+        order.orderComplete(totalPrice, totalFee);
         order.inputDetail(details);
         return OrderListResponseDto.of(order);
 
