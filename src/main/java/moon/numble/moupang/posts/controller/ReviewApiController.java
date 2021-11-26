@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moon.numble.moupang.common.SessionUser;
 import moon.numble.moupang.common.annotation.LoginUser;
-import moon.numble.moupang.posts.domain.Repository.ReviewRepository;
+import moon.numble.moupang.posts.domain.entity.Review;
 import moon.numble.moupang.posts.dto.ReviewResponseDto;
 import moon.numble.moupang.posts.dto.ReviewSaveRequestDto;
-import moon.numble.moupang.posts.domain.entity.Review;
 import moon.numble.moupang.posts.dto.ReviewUpdateRequestDto;
 import moon.numble.moupang.posts.service.FileAttachService;
 import moon.numble.moupang.posts.service.FileUploadRequestService;
+import moon.numble.moupang.posts.service.ReviewFindDao;
 import moon.numble.moupang.posts.service.ReviewPostService;
 import moon.numble.moupang.user.annotation.LoginRequired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class ReviewApiController {
 
+    private final ReviewFindDao reviewFindDao;
     private final ReviewPostService reviewService;
     private final FileAttachService fileAttachService;
     private final FileUploadRequestService uploadRequestService;
@@ -62,4 +64,24 @@ public class ReviewApiController {
 
         return ResponseEntity.ok(ReviewResponseDto.of(review, files));
     }
+
+    @GetMapping("/products/{productId}/reviews")
+    public ResponseEntity<List<ReviewResponseDto>> getReviews(@PathVariable("productId") Long productId){
+
+        List<Review> reviews = reviewFindDao.getReviewsByProductId(productId);
+
+        return ResponseEntity.ok(
+                reviews.stream()
+                        .map(review -> ReviewResponseDto.of(review))
+                        .collect(Collectors.toList())
+        );
+    }
+
+    @GetMapping("/products/{productId}/reviews/{reviewId}")
+    public ResponseEntity<ReviewResponseDto> getReview(@PathVariable("reviewId") Long reviewId){
+        Review review = reviewFindDao.getReviewById(reviewId);
+
+        return ResponseEntity.ok(ReviewResponseDto.of(review));
+    }
+
 }

@@ -8,6 +8,7 @@ import moon.numble.moupang.product.domain.entity.ClothesOption;
 import moon.numble.moupang.product.domain.entity.ProductOption;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -47,7 +48,19 @@ public class ReviewResponseDto {
                 .summary(review.getSummary())
                 .images(files)
                 .build();
-
     }
 
+    public static ReviewResponseDto of(Review review){
+        return ReviewResponseDto.builder()
+                .id(review.getId())
+                .userName(review.getUser().getName())
+                .productName(review.getOrderDetail().getCart().getProduct().getTitle())
+                .optionName(review.getOrderDetail().getCart().getOption())
+                .clothesOptionName(review.getOrderDetail().getCart().getClothes_option())
+                .starRate(review.getStarRate())
+                .content(review.getContent())
+                .summary(review.getSummary())
+                .images(review.getAttachFiles().stream().map(attachFile -> attachFile.getFilePath()).collect(Collectors.toList()))
+                .build();
+    }
 }
