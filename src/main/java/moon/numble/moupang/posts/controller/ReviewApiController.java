@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moon.numble.moupang.common.SessionUser;
 import moon.numble.moupang.common.annotation.LoginUser;
+import moon.numble.moupang.posts.domain.Repository.ReviewRepository;
 import moon.numble.moupang.posts.dto.ReviewResponseDto;
 import moon.numble.moupang.posts.dto.ReviewSaveRequestDto;
 import moon.numble.moupang.posts.domain.entity.Review;
+import moon.numble.moupang.posts.dto.ReviewUpdateRequestDto;
 import moon.numble.moupang.posts.service.FileAttachService;
 import moon.numble.moupang.posts.service.FileUploadRequestService;
 import moon.numble.moupang.posts.service.ReviewPostService;
@@ -45,4 +47,19 @@ public class ReviewApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ReviewResponseDto.of(review, files));
     }
 
+    @LoginRequired
+    @PutMapping("/products/{productId}/reviews/{reviewId}")
+    public ResponseEntity<ReviewResponseDto> updateReview(@LoginUser SessionUser user,
+                                                          @RequestPart @Valid ReviewUpdateRequestDto dto,
+                                                          @RequestPart(required = false) List<MultipartFile> requestFiles,
+                                                          @PathVariable("reviewId") Long reviewId){
+
+        Review review = reviewService.update(reviewId, dto);
+
+        List<String> files = uploadRequestService.uploadImages(requestFiles);
+
+        fileAttachService.saveReviewImages(files, review);
+
+        return ResponseEntity.ok(ReviewResponseDto.of(review, files));
+    }
 }

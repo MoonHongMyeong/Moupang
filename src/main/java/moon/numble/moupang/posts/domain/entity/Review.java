@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import moon.numble.moupang.common.BaseTimeEntity;
 import moon.numble.moupang.order.domain.entity.OrderDetail;
+import moon.numble.moupang.posts.dto.ReviewUpdateRequestDto;
 import moon.numble.moupang.user.domain.entity.User;
 
 import javax.persistence.*;
@@ -47,5 +48,11 @@ public class Review extends BaseTimeEntity {
         this.content = content;
         this.summary = summary;
         this.attachFiles = attachFiles;
+    }
+
+    public void updateReview(ReviewUpdateRequestDto dto) {
+        this.starRate=dto.getStarRate();
+        this.content=dto.getContent();
+        this.summary= dto.getSummary();
     }
 }
