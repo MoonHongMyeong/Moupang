@@ -14,8 +14,12 @@ public class ShippingAddressResponseDto {
 
     private Long id;
     private UserResponseDto user;
-    private String name;
+    private String addressName;
     private ShippingMain main;
+    private String receiver;
+    private String receiverPhone;
+    private String deliveryRequest;
+    private String enhancePassword;
     private String addressDetail;
     private String zonecode;
     private String address;
@@ -40,12 +44,15 @@ public class ShippingAddressResponseDto {
     private String bnameEnglish;
 
     @Builder
-    public ShippingAddressResponseDto(Long id, User user, String name, ShippingMain main, String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadnameCode, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
-        this.id = id;
-        this.user = UserResponseDto.of(user);
-        this.name = name;
+    public ShippingAddressResponseDto(Long id, UserResponseDto user, String addressName, ShippingMain main, String receiver, String receiverPhone, String deliveryRequest, String enhancePassword, String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadnameCode, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
+        this.user = user;
+        this.addressName = addressName;
         this.main = main;
-        this.addressDetail=addressDetail;
+        this.receiver = receiver;
+        this.receiverPhone = receiverPhone;
+        this.deliveryRequest = deliveryRequest;
+        this.enhancePassword = enhancePassword;
+        this.addressDetail = addressDetail;
         this.zonecode = zonecode;
         this.address = address;
         this.addressEnglish = addressEnglish;
@@ -72,10 +79,14 @@ public class ShippingAddressResponseDto {
     public static ShippingAddressResponseDto of(ShippingAddress shippingAddress){
         return ShippingAddressResponseDto.builder()
                 .id(shippingAddress.getId())
-                .user(shippingAddress.getUser())
-                .name(shippingAddress.getName())
-                .addressDetail(shippingAddress.getAddressDetail())
+                .user(UserResponseDto.of(shippingAddress.getUser()))
+                .addressName(shippingAddress.getAddressName())
                 .main(shippingAddress.getMain())
+                .receiver(shippingAddress.getReceiver())
+                .receiverPhone(shippingAddress.getReceiverPhone())
+                .deliveryRequest(shippingAddress.getDeliveryRequest())
+                .enhancePassword(shippingAddress.getEnhancePassword())
+                .addressDetail(shippingAddress.getAddressDetail())
                 .zonecode(shippingAddress.getZonecode())
                 .address(shippingAddress.getAddress())
                 .addressEnglish(shippingAddress.getAddressEnglish())

@@ -8,8 +8,12 @@ import moon.numble.moupang.address.domain.entity.ShippingMain;
 @Getter
 @NoArgsConstructor
 public class ShippingAddressUpdateRequestDto {
-    private String name;
-    private ShippingMain main;
+    private String addressName;
+    private String main;
+    private String receiver;
+    private String receiverPhone;
+    private String deliveryRequest;
+    private String entrancePassword;
     private String addressDetail;
     private String zonecode;
     private String address;
@@ -34,9 +38,13 @@ public class ShippingAddressUpdateRequestDto {
     private String bnameEnglish;
 
     @Builder
-    public ShippingAddressUpdateRequestDto(String name, ShippingMain main, String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadnameCode, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
-        this.name = name;
+    public ShippingAddressUpdateRequestDto(String addressName, String main, String receiver, String receiverPhone, String deliveryRequest, String entrancePassword, String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadnameCode, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
+        this.addressName = addressName;
         this.main = main;
+        this.receiver = receiver;
+        this.receiverPhone = receiverPhone;
+        this.deliveryRequest = deliveryRequest;
+        this.entrancePassword = entrancePassword;
         this.addressDetail = addressDetail;
         this.zonecode = zonecode;
         this.address = address;
