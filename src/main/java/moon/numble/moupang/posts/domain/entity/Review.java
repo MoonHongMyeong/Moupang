@@ -1,5 +1,6 @@
 package moon.numble.moupang.posts.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,13 +18,15 @@ public class Review extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "attach_file_id")
+    @Column(name = "review_id")
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "order_detail_id")
     private OrderDetail orderDetail;
 
     private int starRate;
@@ -32,6 +35,7 @@ public class Review extends BaseTimeEntity {
 
     private String summary;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "review")
     private List<AttachFile> attachFiles;
 
