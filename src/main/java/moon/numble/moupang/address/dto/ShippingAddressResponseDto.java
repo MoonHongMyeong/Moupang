@@ -85,7 +85,7 @@ public class ShippingAddressResponseDto {
                 .receiver(shippingAddress.getReceiver())
                 .receiverPhone(shippingAddress.getReceiverPhone())
                 .deliveryRequest(shippingAddress.getDeliveryRequest())
-                .enhancePassword(shippingAddress.getEnhancePassword())
+                .enhancePassword(shippingAddress.getEntrancePassword())
                 .addressDetail(shippingAddress.getAddressDetail())
                 .zonecode(shippingAddress.getZonecode())
                 .address(shippingAddress.getAddress())

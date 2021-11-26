@@ -112,7 +112,7 @@ public class ShippingAddressSaveRequestDto {
                 .receiver(this.receiver)
                 .receiverPhone(this.receiverPhone)
                 .deliveryRequest(this.deliveryRequest)
-                .enhancePassword(this.enhancePassword)
+                .entrancePassword(this.enhancePassword)
                 .addressDetail(this.addressDetail)
                 .zonecode(this.zonecode)
                 .address(this.address)
