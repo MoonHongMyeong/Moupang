@@ -24,7 +24,15 @@ public class ShippingAddress extends BaseTimeEntity {
     private User user;
 
     @Column
-    private String name;
+    private String addressName;
+
+    private String receiver;
+
+    private String receiverPhone;
+
+    private String deliveryRequest;
+
+    private String entrancePassword;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "isMain")
@@ -94,46 +102,14 @@ public class ShippingAddress extends BaseTimeEntity {
     private String bnameEnglish;
 
     @Builder
-    public ShippingAddress(User user, String name, ShippingMain main, String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
-        this.user=user;
-        this.name = name;
+    public ShippingAddress(User user, String addressName, String receiver, String receiverPhone, String deliveryRequest, String entrancePassword, ShippingMain main, String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
+        this.user = user;
+        this.addressName = addressName;
+        this.receiver = receiver;
+        this.receiverPhone = receiverPhone;
+        this.deliveryRequest = deliveryRequest;
+        this.entrancePassword = entrancePassword;
         this.main = main;
-        this.addressDetail=addressDetail;
-        this.zonecode = zonecode;
-        this.address = address;
-        this.addressEnglish = addressEnglish;
-        this.addressType = addressType;
-        this.userSelectedType = userSelectedType;
-        this.roadAddress = roadAddress;
-        this.roadAddressEnglish = roadAddressEnglish;
-        this.jibunAddress = jibunAddress;
-        this.jibunAddressEnglish = jibunAddressEnglish;
-        this.buildingCode = buildingCode;
-        this.buildingName = buildingName;
-        this.apartment = apartment;
-        this.sido = sido;
-        this.sidoEnglish = sidoEnglish;
-        this.sigungu = sigungu;
-        this.sigunguEnglish = sigunguEnglish;
-        this.roadname = roadname;
-        this.roadnameEnglish = roadnameEnglish;
-        this.bname = bname;
-        this.bnameEnglish = bnameEnglish;
-    }
-
-    public void updateName(String name){
-        this.name=name;
-    }
-
-    public void doMain(){
-        this.main = ShippingMain.MAIN;
-    }
-
-    public void cancelMain(){
-        this.main = ShippingMain.NOT_MAIN;
-    }
-
-    public void updateAddress(String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
         this.addressDetail = addressDetail;
         this.zonecode = zonecode;
         this.address = address;
@@ -157,8 +133,24 @@ public class ShippingAddress extends BaseTimeEntity {
         this.bnameEnglish = bnameEnglish;
     }
 
+    public void updateName(String addressName){
+        this.addressName=addressName;
+    }
+
+    public void doMain(){
+        this.main = ShippingMain.MAIN;
+    }
+
+    public void cancelMain(){
+        this.main = ShippingMain.NOT_MAIN;
+    }
+
     public void updateAddress(ShippingAddressUpdateRequestDto dto){
-        this.main =dto.getMain();
+        this.main =ShippingMain.valueOf(dto.getMain());
+        this.receiver = dto.getReceiver();
+        this.receiverPhone = dto.getReceiverPhone();
+        this.deliveryRequest = dto.getDeliveryRequest();
+        this.entrancePassword = dto.getEntrancePassword();
         this.addressDetail = dto.getAddressDetail();
         this.zonecode = dto.getZonecode();
         this.address = dto.getAddress();
