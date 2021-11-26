@@ -1,4 +1,4 @@
-package moon.numble.moupang.posts.domain.dto;
+package moon.numble.moupang.posts.dto;
 
 import lombok.Builder;
 import lombok.Getter;

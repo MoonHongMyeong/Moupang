@@ -1,11 +1,11 @@
-package moon.numble.moupang.posts.domain.service;
+package moon.numble.moupang.posts.service;
 
 import lombok.RequiredArgsConstructor;
 import moon.numble.moupang.common.SessionUser;
 import moon.numble.moupang.order.domain.entity.OrderDetail;
 import moon.numble.moupang.order.service.OrderDetailSearchService;
 import moon.numble.moupang.posts.domain.Repository.ReviewRepository;
-import moon.numble.moupang.posts.domain.dto.ReviewSaveRequestDto;
+import moon.numble.moupang.posts.dto.ReviewSaveRequestDto;
 import moon.numble.moupang.posts.domain.entity.Review;
 import moon.numble.moupang.user.domain.entity.User;
 import moon.numble.moupang.user.service.UserService;
@@ -22,7 +22,7 @@ public class ReviewPostService {
     private final ReviewRepository reviewRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public Review postReview(SessionUser sessionUser, ReviewSaveRequestDto dto, Long orderDetailId) {
+    public Review create(SessionUser sessionUser, ReviewSaveRequestDto dto, Long orderDetailId) {
 
         User user = userService.getUserToSessionUser(sessionUser);
         OrderDetail orderDetail = orderDetailService.getOrderDetailById(orderDetailId);
@@ -37,4 +37,5 @@ public class ReviewPostService {
 
         return review;
     }
+
 }

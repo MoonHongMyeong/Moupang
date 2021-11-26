@@ -1,15 +1,15 @@
-package moon.numble.moupang.posts.domain.controller;
+package moon.numble.moupang.posts.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import moon.numble.moupang.common.SessionUser;
 import moon.numble.moupang.common.annotation.LoginUser;
-import moon.numble.moupang.posts.domain.dto.ReviewResponseDto;
-import moon.numble.moupang.posts.domain.dto.ReviewSaveRequestDto;
+import moon.numble.moupang.posts.dto.ReviewResponseDto;
+import moon.numble.moupang.posts.dto.ReviewSaveRequestDto;
 import moon.numble.moupang.posts.domain.entity.Review;
-import moon.numble.moupang.posts.domain.service.FileAttachService;
-import moon.numble.moupang.posts.domain.service.FileUploadRequestService;
-import moon.numble.moupang.posts.domain.service.ReviewPostService;
+import moon.numble.moupang.posts.service.FileAttachService;
+import moon.numble.moupang.posts.service.FileUploadRequestService;
+import moon.numble.moupang.posts.service.ReviewPostService;
 import moon.numble.moupang.user.annotation.LoginRequired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,7 @@ public class ReviewApiController {
                                                         @RequestPart(required = false) List<MultipartFile> requestFiles,
                                                         @PathVariable("orderDetailId") Long orderDetailId){
 
-        Review review = reviewService.postReview(user, dto, orderDetailId);
+        Review review = reviewService.create(user, dto, orderDetailId);
 
         List<String> files = uploadRequestService.uploadImages(requestFiles);
 
@@ -44,4 +44,5 @@ public class ReviewApiController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ReviewResponseDto.of(review, files));
     }
+
 }

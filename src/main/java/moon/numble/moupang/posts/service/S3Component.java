@@ -1,4 +1,4 @@
-package moon.numble.moupang.posts.domain.service;
+package moon.numble.moupang.posts.service;
 
 import lombok.Getter;
 import lombok.Setter;
