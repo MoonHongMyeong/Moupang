@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import moon.numble.moupang.common.BaseTimeEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 
@@ -20,14 +21,15 @@ public class AttachFile extends BaseTimeEntity {
     @JoinColumn(name = "review_id")
     private Review review;
 
-    private Long sequence;
-
     private String filePath;
 
     @Builder
-    public AttachFile(Review review, Long sequence, String filePath) {
+    public AttachFile(Review review, String filePath) {
         this.review = review;
-        this.sequence = sequence;
         this.filePath = filePath;
+    }
+
+    public AttachFile(MultipartFile file){
+        this.filePath=file.getOriginalFilename();
     }
 }
