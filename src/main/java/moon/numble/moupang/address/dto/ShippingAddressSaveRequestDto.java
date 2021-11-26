@@ -18,9 +18,17 @@ public class ShippingAddressSaveRequestDto {
     private User user;
     @NotEmpty
     @Length(message = "배송지 이름은 한 글자 이상 입력해야 합니다.", min = 1)
-    private String name;
+    private String addressName;
     @NotNull
     private ShippingMain main;
+    @NotEmpty
+    private String receiver;
+    @NotEmpty
+    private String receiverPhone;
+    @NotNull
+    private String deliveryRequest;
+    @NotNull
+    private String enhancePassword;
     @NotNull
     private String addressDetail;
     @NotNull
@@ -65,11 +73,15 @@ public class ShippingAddressSaveRequestDto {
     private String bnameEnglish;
 
     @Builder
-    public ShippingAddressSaveRequestDto(User user, String name, ShippingMain main, String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
+    public ShippingAddressSaveRequestDto(User user, String addressName, ShippingMain main, String receiver, String receiverPhone, String deliveryRequest, String enhancePassword, String addressDetail, String zonecode, String address, String addressEnglish, String addressType, String userSelectedType, String roadAddress, String roadAddressEnglish, String jibunAddress, String jibunAddressEnglish, String buildingCode, String buildingName, String apartment, String sido, String sidoEnglish, String sigungu, String sigunguEnglish, String roadname, String roadnameEnglish, String bname, String bnameEnglish) {
         this.user = user;
-        this.name = name;
+        this.addressName = addressName;
         this.main = main;
-        this.addressDetail=addressDetail;
+        this.receiver = receiver;
+        this.receiverPhone = receiverPhone;
+        this.deliveryRequest = deliveryRequest;
+        this.enhancePassword = enhancePassword;
+        this.addressDetail = addressDetail;
         this.zonecode = zonecode;
         this.address = address;
         this.addressEnglish = addressEnglish;
@@ -95,8 +107,12 @@ public class ShippingAddressSaveRequestDto {
     public ShippingAddress toEntity(User user){
         return ShippingAddress.builder()
                 .user(user)
-                .name(this.name)
+                .addressName(this.addressName)
                 .main(this.main)
+                .receiver(this.receiver)
+                .receiverPhone(this.receiverPhone)
+                .deliveryRequest(this.deliveryRequest)
+                .entrancePassword(this.enhancePassword)
                 .addressDetail(this.addressDetail)
                 .zonecode(this.zonecode)
                 .address(this.address)

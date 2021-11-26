@@ -4,10 +4,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
 public class OrderListSaveRequestDto {
     @NotNull
-    private Long cartId;
+    private List<Long> cartIds;
+    @NotNull
+    private Long addressId;
 }

@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import moon.numble.moupang.address.domain.entity.ShippingAddress;
 import moon.numble.moupang.common.BaseTimeEntity;
+import moon.numble.moupang.delivery.domain.entity.Delivery;
 import moon.numble.moupang.user.domain.entity.User;
 
 import javax.persistence.*;
@@ -33,12 +35,21 @@ public class ProductOrder extends BaseTimeEntity {
     @OneToMany(targetEntity = OrderDetail.class, mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails;
 
+    @JsonIgnore
+    @OneToOne
+    private Delivery delivery;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private ShippingAddress address;
+
     @Builder
-    public ProductOrder(User user, double totalPrice, double shippingFee, OrderStep orderStep) {
+    public ProductOrder(User user, double totalPrice, double shippingFee, OrderStep orderStep, ShippingAddress shippingAddress) {
         this.user = user;
         this.totalPrice = totalPrice;
         this.totalFee  = shippingFee;
         this.orderStep = orderStep;
+        this.address = shippingAddress;
     }
 
     public void orderCancel(){

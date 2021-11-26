@@ -7,6 +7,7 @@ import moon.numble.moupang.cart.dto.CartSaveRequestDto;
 import moon.numble.moupang.cart.service.CartService;
 import moon.numble.moupang.common.SessionUser;
 import moon.numble.moupang.common.annotation.LoginUser;
+import moon.numble.moupang.order.dto.DirectOrderRequestDto;
 import moon.numble.moupang.order.dto.OrderListResponseDto;
 import moon.numble.moupang.order.dto.OrderResponseDto;
 import moon.numble.moupang.order.dto.OrderListSaveRequestDto;
@@ -34,7 +35,7 @@ public class OrderApiController {
 
     @LoginRequired
     @PostMapping("/product/{productId}/purchase")
-    public ResponseEntity<OrderResponseDto> directlyPurchase(@RequestBody @Valid CartSaveRequestDto dto,
+    public ResponseEntity<OrderResponseDto> directlyPurchase(@RequestBody @Valid DirectOrderRequestDto dto,
                                                                  @LoginUser SessionUser sessionUser,
                                                                  @PathVariable("productId") Long productId){
 
@@ -47,17 +48,17 @@ public class OrderApiController {
 
     @LoginRequired
     @PostMapping("/user/{userId}/carts")
-    public ResponseEntity<OrderListResponseDto> purchaseFromCart(@RequestBody @Valid List<OrderListSaveRequestDto> dtos,
+    public ResponseEntity<OrderListResponseDto> purchaseFromCart(@RequestBody @Valid OrderListSaveRequestDto dto,
                                                                    @LoginUser SessionUser sessionUser,
                                                                    @PathVariable("userId") Long userId){
 
-        List<Cart> carts = dtos.stream()
-                .map(dto -> cartService.getCartById(dto.getCartId()))
+        List<Cart> carts = dto.getCartIds().stream()
+                .map(id -> cartService.getCartById(id))
                 .collect(Collectors.toList());
 
         User user = userService.getUserToSessionUser(sessionUser);
 
-        OrderListResponseDto responses = orderService.purchaseFromCart(carts, user);
+        OrderListResponseDto responses = orderService.purchaseFromCart(carts, user, dto.getAddressId());
 
         return ResponseEntity.ok(responses);
     }
