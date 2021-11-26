@@ -2,6 +2,7 @@ package moon.numble.moupang.payment.service;
 
 import com.querydsl.core.types.Order;
 import lombok.RequiredArgsConstructor;
+import moon.numble.moupang.delivery.service.DeliveryService;
 import moon.numble.moupang.order.domain.entity.ProductOrder;
 import moon.numble.moupang.order.domain.repository.OrderRepository;
 import moon.numble.moupang.order.exception.OrderNotFoundException;
@@ -19,25 +20,25 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PaymentService {
 
+    private final DeliveryService deliveryService;
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
 
     @Transactional(rollbackFor = Exception.class)
     public PaymentResponseDto pay(Long orderId, User user, String paymentType) {
 
-        Optional<ProductOrder> order = orderRepository.findById(orderId);
-
-        if(order.isEmpty()){
-            throw new OrderNotFoundException(orderId.toString());
-        }
+        ProductOrder order = orderRepository.findById(orderId)
+                .orElseThrow(()-> new OrderNotFoundException(orderId.toString()));
 
         Payment payment = paymentRepository.save(Payment.builder()
-                .order(order.get())
+                .order(order)
                 .user(user)
                 .paymentType(PaymentType.valueOf(paymentType))
                 .build());
 
-        order.get().paymentComplete();
+        order.paymentComplete();
+
+        deliveryService.startDelivery(order, user);
 
         return PaymentResponseDto.of(payment);
     }
