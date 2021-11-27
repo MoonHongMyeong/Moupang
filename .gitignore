@@ -39,6 +39,7 @@ out/
 ### properties ###
 *.properties
 application-prod.yml
+application-aws.yml
 
 ### queryDsl Qclass ###
 src/main/generated/

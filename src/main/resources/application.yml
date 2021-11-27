@@ -4,6 +4,8 @@ server :
 spring :
     profiles :
         active : test
+        include : aws
+
     devtools :
         livereload :
             enabled : true
