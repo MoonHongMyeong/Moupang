@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import moon.numble.moupang.cart.domain.entity.Cart;
 import moon.numble.moupang.common.BaseTimeEntity;
-import moon.numble.moupang.product.domain.entity.Product;
 
 import javax.persistence.*;
 
