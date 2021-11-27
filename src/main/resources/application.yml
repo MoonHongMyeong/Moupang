@@ -6,8 +6,5 @@ spring :
         active : test
         include : aws
 
-    devtools :
-        livereload :
-            enabled : true
     jpa :
         show-sql : true
